@@ -1,0 +1,44 @@
+import 'dart:developer';
+
+import 'package:gas_app/features/gas_stations/domain/entities/gas_station.dart';
+import 'package:gas_app/features/gas_stations/presentation/providers/gas_stations_providers.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
+
+import 'package:gas_app/features/gas_stations/domain/usecases/get_gas_stations.dart';
+import 'package:gas_app/features/gas_stations/presentation/state/gas_stations_state.dart';
+
+part 'gas_stations_notifier.g.dart';
+
+@riverpod
+class GasStationsNotifier extends _$GasStationsNotifier {
+  @override
+  GasStationsState build() => GasStationsState.initial();
+
+  Future<void> loadNearby({
+    required double lat,
+    required double lng,
+    required double radius,
+  }) async {
+    state = GasStationsState.loading();
+
+    try {
+      final GetNearbyGasStations nearbyGasStations = ref.read(
+        nearbyGasStationsProvider,
+      );
+
+      final List<GasStation> stations = await nearbyGasStations.call(
+        lat: lat,
+        lng: lng,
+        radius: radius,
+      );
+      state = GasStationsState.success(stations);
+    } catch (e, stackTrace) {
+      log(
+        'Error loading nearby gas stations',
+        error: e,
+        stackTrace: stackTrace,
+      );
+      state = GasStationsState.error(e.toString());
+    }
+  }
+}
