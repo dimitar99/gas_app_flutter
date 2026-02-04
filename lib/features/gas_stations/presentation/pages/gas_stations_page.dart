@@ -1,9 +1,9 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:gas_app/core/location/location_provider.dart';
 import 'package:gas_app/core/utils/extensions/string.dart';
+import 'package:gas_app/features/auth/presentation/notifiers/auth_notifier.dart';
 import 'package:gas_app/features/gas_stations/domain/entities/gas_station.dart';
 import 'package:gas_app/features/gas_stations/presentation/notifiers/gas_stations_notifier.dart';
 import 'package:gas_app/features/gas_stations/presentation/providers/gas_stations_providers.dart';
@@ -21,10 +21,25 @@ class _GasStationsPageState extends ConsumerState<GasStationsPage> {
   @override
   void initState() {
     super.initState();
-    Future.microtask(() {
-      ref
-          .read(gasStationsNotifierProvider.notifier)
-          .loadNearby(lat: 38.964267, lng: -0.583039, radius: 5);
+    Future.microtask(() async {
+      try {
+        final location = await ref.read(locationProvider.future);
+
+        ref
+            .read(gasStationsNotifierProvider.notifier)
+            .loadNearby(
+              lat: location.latitude,
+              lng: location.longitude,
+              radius: 5,
+            );
+      } catch (e) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Error al obtener las gasolineras'),
+            backgroundColor: Colors.redAccent,
+          ),
+        );
+      }
     });
   }
 
@@ -35,12 +50,22 @@ class _GasStationsPageState extends ConsumerState<GasStationsPage> {
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
       child: Scaffold(
-        appBar: AppBar(title: const Text('Gasolineras')),
+        appBar: AppBar(
+          title: const Text('Gasolineras'),
+          actions: [
+            IconButton(
+              icon: const Icon(Icons.logout),
+              onPressed: () {
+                ref.read(authNotifierProvider.notifier).logout();
+              },
+            ),
+          ],
+        ),
         body: switch (state.status) {
+          GasStationsStatus.initial => const Loading(),
           GasStationsStatus.loading => const Loading(),
           GasStationsStatus.success => Gasolineras(state: state),
           GasStationsStatus.error => Error(state: state),
-          _ => const SizedBox.shrink(),
         },
       ),
     );

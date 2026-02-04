@@ -9,35 +9,26 @@ class GasStationsState {
   final String? errorMessage;
 
   const GasStationsState({
-    required this.status,
+    this.status = GasStationsStatus.initial,
     this.gasStations = const [],
     this.filteredGasStations = const [],
     this.errorMessage,
   });
 
-  factory GasStationsState.initial() {
-    return const GasStationsState(status: GasStationsStatus.initial);
-  }
+  factory GasStationsState.initial() => const GasStationsState();
 
-  factory GasStationsState.loading() {
-    return const GasStationsState(status: GasStationsStatus.loading);
-  }
+  factory GasStationsState.loading() =>
+      const GasStationsState(status: GasStationsStatus.loading);
 
   factory GasStationsState.success(
     List<GasStation> gasStations, {
     List<GasStation> filteredGasStations = const [],
-  }) {
-    return GasStationsState(
-      status: GasStationsStatus.success,
-      gasStations: gasStations,
-      filteredGasStations: gasStations,
-    );
-  }
+  }) => GasStationsState(
+    status: GasStationsStatus.success,
+    gasStations: gasStations,
+    filteredGasStations: gasStations,
+  );
 
-  factory GasStationsState.error(String message) {
-    return GasStationsState(
-      status: GasStationsStatus.error,
-      errorMessage: message,
-    );
-  }
+  factory GasStationsState.error(String message) =>
+      GasStationsState(status: GasStationsStatus.error, errorMessage: message);
 }
