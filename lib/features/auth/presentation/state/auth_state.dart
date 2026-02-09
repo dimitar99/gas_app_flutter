@@ -4,15 +4,23 @@ enum AuthStateStatus { initial, loading, authenticated, unauthenticated, error }
 
 enum AuthErrorType { unknown, invalidCredentials, network }
 
+enum AuthScreen { login, register }
+
 class AuthState {
   final AuthStateStatus status;
   final User? user;
   final AuthErrorType? errorType;
+  final AuthScreen screen;
+  final String selectedFuel;
+  final double tankCapacity;
 
   const AuthState({
     this.status = AuthStateStatus.initial,
     this.user,
     this.errorType,
+    this.screen = AuthScreen.login,
+    this.selectedFuel = "",
+    this.tankCapacity = 50,
   });
 
   factory AuthState.initial() => const AuthState();
@@ -28,4 +36,27 @@ class AuthState {
 
   factory AuthState.error(AuthErrorType errorType) =>
       AuthState(status: AuthStateStatus.error, errorType: errorType);
+
+  factory AuthState.loginScreen() => const AuthState(screen: AuthScreen.login);
+
+  factory AuthState.registerScreen() =>
+      const AuthState(screen: AuthScreen.register);
+
+  AuthState copyWith({
+    AuthStateStatus? status,
+    User? user,
+    AuthErrorType? errorType,
+    AuthScreen? screen,
+    String? selectedFuel,
+    double? tankCapacity,
+  }) {
+    return AuthState(
+      status: status ?? this.status,
+      user: user ?? this.user,
+      errorType: errorType ?? this.errorType,
+      screen: screen ?? this.screen,
+      selectedFuel: selectedFuel ?? this.selectedFuel,
+      tankCapacity: tankCapacity ?? this.tankCapacity,
+    );
+  }
 }

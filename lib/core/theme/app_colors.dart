@@ -6,4 +6,5 @@ abstract class AppColors {
   static const textPrimary = Color(0xFF111827);
   static const textSecondary = Color(0xFF6B7280);
   static const error = Color(0xFFEF4444);
+  static const white = Color(0xFFFFFFFF);
 }

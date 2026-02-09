@@ -1,4 +1,6 @@
 import 'package:dio/dio.dart';
+import 'package:gas_app/core/network/error_mapper.dart';
+import 'package:gas_app/core/network/exceptions/app_exception.dart';
 import 'package:gas_app/features/auth/data/dto/auth_response_dto.dart';
 
 class AuthRemoteDatasource {
@@ -14,7 +16,10 @@ class AuthRemoteDatasource {
       );
       return AuthResponseDto.fromJson(response.data);
     } catch (e) {
-      throw Exception(e.toString());
+      if (e is DioException) {
+        throw DioErrorMapper.map(e);
+      }
+      throw const AppException('Ha ocurrido un error');
     }
   }
 
@@ -26,7 +31,10 @@ class AuthRemoteDatasource {
       );
       return AuthResponseDto.fromJson(response.data);
     } catch (e) {
-      throw Exception(e.toString());
+      if (e is DioException) {
+        throw DioErrorMapper.map(e);
+      }
+      throw const AppException('Ha ocurrido un error');
     }
   }
 
@@ -34,7 +42,10 @@ class AuthRemoteDatasource {
     try {
       await dio.post('/auth/logout');
     } catch (e) {
-      throw Exception(e.toString());
+      if (e is DioException) {
+        throw DioErrorMapper.map(e);
+      }
+      throw const AppException('Ha ocurrido un error');
     }
   }
 }

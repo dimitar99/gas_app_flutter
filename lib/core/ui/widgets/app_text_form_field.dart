@@ -56,11 +56,12 @@ class _AppTextFormFieldState extends State<AppTextFormField> {
           borderSide: BorderSide(color: AppColors.error, width: 2),
           borderRadius: BorderRadius.all(Radius.circular(12)),
         ),
-        errorStyle: AppTextStyles.caption.copyWith(color: AppColors.error),
+        errorStyle: AppTextStyles.caption,
         suffixIcon: _obscureText != null
             ? IconButton(
                 icon: Icon(
                   _obscureText! ? Icons.visibility : Icons.visibility_off,
+                  color: AppColors.textSecondary,
                 ),
                 onPressed: () => setState(() => _obscureText = !_obscureText!),
               )
