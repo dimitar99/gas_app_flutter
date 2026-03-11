@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:gas_app/core/location/location_provider.dart';
 import 'package:gas_app/features/gas_stations/domain/entities/gas_station.dart';
 import 'package:gas_app/features/gas_stations/presentation/providers/gas_stations_providers.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -14,11 +15,7 @@ class GasStationsNotifier extends _$GasStationsNotifier {
   @override
   GasStationsState build() => GasStationsState.initial();
 
-  Future<void> loadNearby({
-    required double lat,
-    required double lng,
-    required double radius,
-  }) async {
+  Future<void> loadNearby({double radius = 5}) async {
     state = GasStationsState.loading();
 
     try {
@@ -26,11 +23,14 @@ class GasStationsNotifier extends _$GasStationsNotifier {
         nearbyGasStationsProvider,
       );
 
+      final location = await ref.read(locationProvider.future);
+
       final List<GasStation> stations = await nearbyGasStations.call(
-        lat: lat,
-        lng: lng,
+        lat: location.latitude,
+        lng: location.longitude,
         radius: radius,
       );
+
       state = GasStationsState.success(stations);
     } catch (e, stackTrace) {
       log(
@@ -38,7 +38,9 @@ class GasStationsNotifier extends _$GasStationsNotifier {
         error: e,
         stackTrace: stackTrace,
       );
-      state = GasStationsState.error(e.toString());
+      state = GasStationsState.error(
+        'Error obteniendo las gasolineras cercanas',
+      );
     }
   }
 }

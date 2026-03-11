@@ -11,13 +11,15 @@ final appRouterProvider = Provider<GoRouter>((ref) {
   return GoRouter(
     initialLocation: AppRoutes.auth,
     redirect: (context, state) {
-      final auth = ref.watch(authNotifierProvider);
+      final authStatus = ref.watch(
+        authNotifierProvider.select((s) => s.status),
+      );
 
-      if (auth.status == AuthStateStatus.unauthenticated) {
+      if (authStatus == AuthStateStatus.unauthenticated) {
         return AppRoutes.auth;
       }
 
-      if (auth.status == AuthStateStatus.authenticated) {
+      if (authStatus == AuthStateStatus.authenticated) {
         return AppRoutes.gasStations;
       }
 

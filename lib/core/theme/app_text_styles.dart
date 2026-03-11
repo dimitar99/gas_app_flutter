@@ -13,6 +13,11 @@ abstract class AppTextStyles {
     color: AppColors.textPrimary,
   );
   static const heading3 = TextStyle(
+    fontSize: 20,
+    fontWeight: FontWeight.bold,
+    color: AppColors.textPrimary,
+  );
+  static const heading4 = TextStyle(
     fontSize: 16,
     fontWeight: FontWeight.w400,
     color: AppColors.textPrimary,

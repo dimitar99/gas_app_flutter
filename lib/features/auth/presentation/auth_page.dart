@@ -18,6 +18,17 @@ class AuthPage extends ConsumerWidget {
     ref.listen(authNotifierProvider, (previous, next) {
       if (next.status == AuthStateStatus.authenticated) {
         context.go(AppRoutes.gasStations);
+      } else if (next.status == AuthStateStatus.error) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+              next.errorType == AuthErrorType.invalidCredentials
+                  ? 'Credenciales inválidas'
+                  : 'Ha ocurrido un error',
+            ),
+            backgroundColor: Colors.redAccent,
+          ),
+        );
       }
     });
 
@@ -55,11 +66,11 @@ class AuthPage extends ConsumerWidget {
                     screen == AuthScreen.login
                         ? 'Bienvenido de nuevo'
                         : 'Regístrate',
-                    style: AppTextStyles.heading3,
+                    style: AppTextStyles.heading4,
                   ),
                   screen == AuthScreen.login
                       ? LoginForm(ref: ref)
-                      : RegisterForm(ref: ref),
+                      : const RegisterForm(),
                   TextButton(
                     onPressed: () =>
                         ref.read(authNotifierProvider.notifier).changeScreen(),

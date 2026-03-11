@@ -28,9 +28,21 @@ class LoginRegisterButton extends StatelessWidget {
       child: ElevatedButton(
         onPressed: () {
           if (formKey.currentState?.validate() ?? false) {
-            ref
-                .read(authNotifierProvider.notifier)
-                .login(emailController.text, passwordController.text);
+            if (screen == AuthScreen.login) {
+              ref
+                  .read(authNotifierProvider.notifier)
+                  .login(
+                    email: emailController.text,
+                    password: passwordController.text,
+                  );
+            } else {
+              ref
+                  .read(authNotifierProvider.notifier)
+                  .register(
+                    email: emailController.text,
+                    password: passwordController.text,
+                  );
+            }
           }
         },
         style: ElevatedButton.styleFrom(

@@ -19,21 +19,17 @@ class GasStationsRemoteDatasourceImpl implements GasStationsRemoteDatasource {
     required double lng,
     required double radius,
   }) async {
-    try {
-      final resp = await dio.get(
-        "/gas-stations/near-by",
-        queryParameters: {"lat": lat, "lng": lng, "kms": radius},
-      );
+    final resp = await dio.get(
+      "/gas-stations/near-by",
+      queryParameters: {"lat": lat, "lng": lng, "kms": radius},
+    );
 
-      final List<GasStationModelDTO> gasStations = [];
+    final List<GasStationModelDTO> gasStations = [];
 
-      resp.data.forEach((e) {
-        gasStations.add(GasStationModelDTO.fromJson(e));
-      });
+    resp.data.forEach((e) {
+      gasStations.add(GasStationModelDTO.fromJson(e));
+    });
 
-      return gasStations;
-    } catch (e) {
-      rethrow;
-    }
+    return gasStations;
   }
 }

@@ -11,16 +11,18 @@ class AuthState {
   final User? user;
   final AuthErrorType? errorType;
   final AuthScreen screen;
-  final String selectedFuel;
+  final String? selectedFuel;
   final double tankCapacity;
+  final bool showPasswordError;
 
   const AuthState({
     this.status = AuthStateStatus.initial,
     this.user,
     this.errorType,
     this.screen = AuthScreen.login,
-    this.selectedFuel = "",
+    this.selectedFuel,
     this.tankCapacity = 50,
+    this.showPasswordError = false,
   });
 
   factory AuthState.initial() => const AuthState();
@@ -49,6 +51,7 @@ class AuthState {
     AuthScreen? screen,
     String? selectedFuel,
     double? tankCapacity,
+    bool? showPasswordError,
   }) {
     return AuthState(
       status: status ?? this.status,
@@ -57,6 +60,7 @@ class AuthState {
       screen: screen ?? this.screen,
       selectedFuel: selectedFuel ?? this.selectedFuel,
       tankCapacity: tankCapacity ?? this.tankCapacity,
+      showPasswordError: showPasswordError ?? this.showPasswordError,
     );
   }
 }

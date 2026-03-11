@@ -34,7 +34,7 @@ class _AppTextFormFieldState extends State<AppTextFormField> {
   Widget build(BuildContext context) {
     return TextFormField(
       controller: widget.controller,
-      style: AppTextStyles.heading3,
+      style: AppTextStyles.heading4,
       obscureText: _obscureText ?? false,
       validator: widget.validator,
       decoration: InputDecoration(

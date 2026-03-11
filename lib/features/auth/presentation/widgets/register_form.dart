@@ -9,15 +9,14 @@ import 'package:gas_app/features/auth/presentation/notifiers/auth_notifier.dart'
 import 'package:gas_app/features/auth/presentation/widgets/form_field_label.dart';
 import 'package:gas_app/features/auth/presentation/widgets/login_register_button.dart';
 
-class RegisterForm extends StatefulWidget {
-  final WidgetRef ref;
-  const RegisterForm({super.key, required this.ref});
+class RegisterForm extends ConsumerStatefulWidget {
+  const RegisterForm({super.key});
 
   @override
-  State<RegisterForm> createState() => _RegisterFormState();
+  ConsumerState<RegisterForm> createState() => _RegisterFormState();
 }
 
-class _RegisterFormState extends State<RegisterForm> {
+class _RegisterFormState extends ConsumerState<RegisterForm> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
 
@@ -71,7 +70,7 @@ class _RegisterFormState extends State<RegisterForm> {
           AppVerticalSpacing.s16,
           LoginRegisterButton(
             formKey: _formKey,
-            ref: widget.ref,
+            ref: ref,
             emailController: _emailController,
             passwordController: _passwordController,
           ),
@@ -161,7 +160,7 @@ class _FuelType extends ConsumerWidget {
             'Seleccione un combustible',
             style: AppTextStyles.small,
           ),
-          style: AppTextStyles.heading3,
+          style: AppTextStyles.heading4,
           dropdownColor: AppColors.white,
           items: const [
             DropdownMenuItem(value: 'gasoline95', child: Text('Gasolina 95')),
@@ -171,9 +170,7 @@ class _FuelType extends ConsumerWidget {
             DropdownMenuItem(value: 'glp', child: Text('GLP')),
             DropdownMenuItem(value: 'gnc', child: Text('GNC')),
           ],
-          initialValue: ref.watch(
-            authNotifierProvider.select((s) => s.selectedFuel),
-          ),
+          value: ref.watch(authNotifierProvider.select((s) => s.selectedFuel)),
           onChanged: (value) =>
               ref.read(authNotifierProvider.notifier).setFuel(value!),
         ),
@@ -204,18 +201,18 @@ class _TankCapacitySlider extends ConsumerWidget {
           value: tankCapacity,
           min: 0,
           max: 100,
-          divisions: 100,
-          label: tankCapacity.toStringAsFixed(0),
+          divisions: 20,
           thumbColor: AppColors.primary,
           activeColor: AppColors.primary,
-          onChanged: (value) =>
-              ref.read(authNotifierProvider.notifier).setTankCapacity(value),
+          onChanged: (value) {
+            ref.read(authNotifierProvider.notifier).setTankCapacity(value);
+          },
         ),
         Padding(
           padding: const EdgeInsets.only(top: 8, left: 12),
           child: Text(
             '${tankCapacity.toStringAsFixed(0)} litros',
-            style: AppTextStyles.heading3,
+            style: AppTextStyles.heading4,
           ),
         ),
       ],

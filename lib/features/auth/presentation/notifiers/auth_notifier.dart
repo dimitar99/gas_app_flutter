@@ -1,4 +1,7 @@
+import 'dart:developer';
+
 import 'package:gas_app/features/auth/presentation/providers/auth_providers.dart';
+import 'package:gas_app/features/auth/presentation/providers/auth_usecases_providers.dart';
 import 'package:gas_app/features/auth/presentation/state/auth_error_type_mapper.dart';
 import 'package:gas_app/features/auth/presentation/state/auth_state.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -35,34 +38,45 @@ class AuthNotifier extends _$AuthNotifier {
 
   void setTankCapacity(double tankCapacity) {
     state = state.copyWith(tankCapacity: tankCapacity);
+    log('Tank capacity new($tankCapacity): ${state.tankCapacity}');
   }
 
-  Future<void> login(String email, String password) async {
-    state = state.copyWith();
+  Future<void> login({required String email, required String password}) async {
+    state = state.copyWith(status: AuthStateStatus.loading);
     try {
       final user = await ref
-          .read(authRepositoryProvider)
-          .login(email, password);
-      state = AuthState.authenticated(user);
+          .read(loginUseCaseProvider)
+          .call(email: email, password: password);
+      state = state.copyWith(status: AuthStateStatus.authenticated, user: user);
     } catch (e) {
-      state = AuthState.error(AuthErrorTypeMapper.fromException(e));
+      state = state.copyWith(
+        status: AuthStateStatus.error,
+        errorType: AuthErrorTypeMapper.fromException(e),
+        showPasswordError: true,
+      );
     }
   }
 
-  Future<void> register(String email, String password) async {
-    state = AuthState.loading();
+  Future<void> register({
+    required String email,
+    required String password,
+  }) async {
+    state = state.copyWith(status: AuthStateStatus.loading);
     try {
       final user = await ref
-          .read(authRepositoryProvider)
-          .register(email, password);
-      state = AuthState.authenticated(user);
+          .read(registerUseCaseProvider)
+          .call(email: email, password: password);
+      state = state.copyWith(status: AuthStateStatus.authenticated, user: user);
     } catch (e) {
-      state = AuthState.error(AuthErrorTypeMapper.fromException(e));
+      state = state.copyWith(
+        status: AuthStateStatus.error,
+        errorType: AuthErrorTypeMapper.fromException(e),
+      );
     }
   }
 
   Future<void> logout() async {
     state = AuthState.unauthenticated();
-    await ref.read(authRepositoryProvider).logout();
+    await ref.read(logoutUseCaseProvider).call();
   }
 }

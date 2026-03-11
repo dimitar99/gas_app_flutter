@@ -38,7 +38,7 @@ class FormFieldLabel extends StatelessWidget {
           ),
         },
         AppHorizontalSpacing.s8,
-        Text(text, style: AppTextStyles.heading3),
+        Text(text, style: AppTextStyles.heading4),
       ],
     );
   }
