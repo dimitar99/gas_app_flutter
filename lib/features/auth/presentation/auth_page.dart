@@ -65,11 +65,11 @@ class AuthPage extends ConsumerWidget {
                   Text(
                     screen == AuthScreen.login
                         ? 'Bienvenido de nuevo'
-                        : 'Regístrate',
+                        : 'Crear una cuenta nueva',
                     style: AppTextStyles.heading4,
                   ),
                   screen == AuthScreen.login
-                      ? LoginForm(ref: ref)
+                      ? const LoginForm()
                       : const RegisterForm(),
                   TextButton(
                     onPressed: () =>

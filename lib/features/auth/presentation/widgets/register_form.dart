@@ -45,20 +45,7 @@ class _RegisterFormState extends ConsumerState<RegisterForm> {
               _Password(passwordController: _passwordController),
               AppVerticalSpacing.s24,
 
-              const Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Expanded(child: Divider()),
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 8),
-                    child: Text(
-                      'Preferencias (opcional)',
-                      style: AppTextStyles.body,
-                    ),
-                  ),
-                  Expanded(child: Divider()),
-                ],
-              ),
+              const _OptionalText(),
               AppVerticalSpacing.s24,
 
               const _FuelType(),
@@ -70,7 +57,6 @@ class _RegisterFormState extends ConsumerState<RegisterForm> {
           AppVerticalSpacing.s16,
           LoginRegisterButton(
             formKey: _formKey,
-            ref: ref,
             emailController: _emailController,
             passwordController: _passwordController,
           ),
@@ -124,6 +110,25 @@ class _Password extends StatelessWidget {
             return null;
           },
         ),
+      ],
+    );
+  }
+}
+
+class _OptionalText extends StatelessWidget {
+  const _OptionalText();
+
+  @override
+  Widget build(BuildContext context) {
+    return const Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Expanded(child: Divider()),
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: 8),
+          child: Text('Preferencias (opcional)', style: AppTextStyles.body),
+        ),
+        Expanded(child: Divider()),
       ],
     );
   }
@@ -184,9 +189,7 @@ class _TankCapacitySlider extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final tankCapacity = ref.watch(
-      authNotifierProvider.select((s) => s.tankCapacity),
-    );
+    final tankSize = ref.watch(authNotifierProvider.select((s) => s.tankSize));
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -198,20 +201,20 @@ class _TankCapacitySlider extends ConsumerWidget {
         AppVerticalSpacing.s16,
         Slider(
           padding: const EdgeInsets.symmetric(horizontal: 16),
-          value: tankCapacity,
-          min: 0,
-          max: 100,
-          divisions: 20,
+          value: tankSize,
+          min: 10,
+          max: 130,
+          divisions: 24,
           thumbColor: AppColors.primary,
           activeColor: AppColors.primary,
           onChanged: (value) {
-            ref.read(authNotifierProvider.notifier).setTankCapacity(value);
+            ref.read(authNotifierProvider.notifier).setTankSize(value);
           },
         ),
         Padding(
           padding: const EdgeInsets.only(top: 8, left: 12),
           child: Text(
-            '${tankCapacity.toStringAsFixed(0)} litros',
+            '${tankSize.toStringAsFixed(0)} litros',
             style: AppTextStyles.heading4,
           ),
         ),

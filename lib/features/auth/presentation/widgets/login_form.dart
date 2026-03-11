@@ -9,15 +9,14 @@ import 'package:gas_app/features/auth/presentation/state/auth_state.dart';
 import 'package:gas_app/features/auth/presentation/widgets/form_field_label.dart';
 import 'package:gas_app/features/auth/presentation/widgets/login_register_button.dart';
 
-class LoginForm extends StatefulWidget {
-  final WidgetRef ref;
-  const LoginForm({super.key, required this.ref});
+class LoginForm extends ConsumerStatefulWidget {
+  const LoginForm({super.key});
 
   @override
-  State<LoginForm> createState() => _LoginFormState();
+  ConsumerState<LoginForm> createState() => _LoginFormState();
 }
 
-class _LoginFormState extends State<LoginForm> {
+class _LoginFormState extends ConsumerState<LoginForm> {
   final _emailController = TextEditingController(text: "dimitar@example.com");
   final _passwordController = TextEditingController(text: "password123");
   final _formKey = GlobalKey<FormState>();
@@ -31,10 +30,10 @@ class _LoginFormState extends State<LoginForm> {
 
   @override
   Widget build(BuildContext context) {
-    final errorType = widget.ref.watch(
+    final errorType = ref.watch(
       authNotifierProvider.select((s) => s.errorType),
     );
-    final showPasswordError = widget.ref.watch(
+    final showPasswordError = ref.watch(
       authNotifierProvider.select((s) => s.showPasswordError),
     );
     return Form(
@@ -113,7 +112,6 @@ class _LoginFormState extends State<LoginForm> {
           AppVerticalSpacing.s16,
           LoginRegisterButton(
             formKey: _formKey,
-            ref: widget.ref,
             emailController: _emailController,
             passwordController: _passwordController,
           ),

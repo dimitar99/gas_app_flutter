@@ -4,21 +4,19 @@ import 'package:gas_app/core/theme/app_colors.dart';
 import 'package:gas_app/features/auth/presentation/notifiers/auth_notifier.dart';
 import 'package:gas_app/features/auth/presentation/state/auth_state.dart';
 
-class LoginRegisterButton extends StatelessWidget {
+class LoginRegisterButton extends ConsumerWidget {
   final GlobalKey<FormState> formKey;
-  final WidgetRef ref;
   final TextEditingController emailController;
   final TextEditingController passwordController;
   const LoginRegisterButton({
     super.key,
     required this.formKey,
-    required this.ref,
     required this.emailController,
     required this.passwordController,
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final status = ref.watch(authNotifierProvider.select((s) => s.status));
     final screen = ref.watch(authNotifierProvider.select((s) => s.screen));
 
@@ -41,6 +39,12 @@ class LoginRegisterButton extends StatelessWidget {
                   .register(
                     email: emailController.text,
                     password: passwordController.text,
+                    fuel: ref.watch(
+                      authNotifierProvider.select((s) => s.selectedFuel),
+                    ),
+                    tankSize: ref.watch(
+                      authNotifierProvider.select((s) => s.tankSize),
+                    ),
                   );
             }
           }

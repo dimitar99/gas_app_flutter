@@ -14,11 +14,22 @@ class AuthRemoteDatasource {
     return AuthResponseDto.fromJson(response.data);
   }
 
-  Future<AuthResponseDto> register(String email, String password) async {
+  Future<AuthResponseDto> register({
+    required String email,
+    required String password,
+    required String fuel,
+    required double tankSize,
+  }) async {
     final response = await dio.post(
       '/auth/register',
-      data: {'email': email, 'password': password},
+      data: {
+        'email': email,
+        'password': password,
+        'fuel': fuel,
+        'tankSize': tankSize,
+      },
     );
+
     return AuthResponseDto.fromJson(response.data);
   }
 

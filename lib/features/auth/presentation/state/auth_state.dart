@@ -11,8 +11,8 @@ class AuthState {
   final User? user;
   final AuthErrorType? errorType;
   final AuthScreen screen;
-  final String? selectedFuel;
-  final double tankCapacity;
+  final String selectedFuel;
+  final double tankSize;
   final bool showPasswordError;
 
   const AuthState({
@@ -20,8 +20,8 @@ class AuthState {
     this.user,
     this.errorType,
     this.screen = AuthScreen.login,
-    this.selectedFuel,
-    this.tankCapacity = 50,
+    this.selectedFuel = 'gasoline95',
+    this.tankSize = 50,
     this.showPasswordError = false,
   });
 
@@ -50,7 +50,7 @@ class AuthState {
     AuthErrorType? errorType,
     AuthScreen? screen,
     String? selectedFuel,
-    double? tankCapacity,
+    double? tankSize,
     bool? showPasswordError,
   }) {
     return AuthState(
@@ -59,7 +59,7 @@ class AuthState {
       errorType: errorType ?? this.errorType,
       screen: screen ?? this.screen,
       selectedFuel: selectedFuel ?? this.selectedFuel,
-      tankCapacity: tankCapacity ?? this.tankCapacity,
+      tankSize: tankSize ?? this.tankSize,
       showPasswordError: showPasswordError ?? this.showPasswordError,
     );
   }

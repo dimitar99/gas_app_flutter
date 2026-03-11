@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:gas_app/features/auth/presentation/providers/auth_providers.dart';
 import 'package:gas_app/features/auth/presentation/providers/auth_usecases_providers.dart';
 import 'package:gas_app/features/auth/presentation/state/auth_error_type_mapper.dart';
@@ -36,9 +34,8 @@ class AuthNotifier extends _$AuthNotifier {
     state = state.copyWith(selectedFuel: fuel);
   }
 
-  void setTankCapacity(double tankCapacity) {
-    state = state.copyWith(tankCapacity: tankCapacity);
-    log('Tank capacity new($tankCapacity): ${state.tankCapacity}');
+  void setTankSize(double tankSize) {
+    state = state.copyWith(tankSize: tankSize);
   }
 
   Future<void> login({required String email, required String password}) async {
@@ -60,12 +57,19 @@ class AuthNotifier extends _$AuthNotifier {
   Future<void> register({
     required String email,
     required String password,
+    required String fuel,
+    required double tankSize,
   }) async {
     state = state.copyWith(status: AuthStateStatus.loading);
     try {
       final user = await ref
           .read(registerUseCaseProvider)
-          .call(email: email, password: password);
+          .call(
+            email: email,
+            password: password,
+            fuel: fuel,
+            tankSize: tankSize,
+          );
       state = state.copyWith(status: AuthStateStatus.authenticated, user: user);
     } catch (e) {
       state = state.copyWith(
