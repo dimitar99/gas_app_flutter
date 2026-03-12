@@ -39,10 +39,10 @@ class LoginRegisterButton extends ConsumerWidget {
                   .register(
                     email: emailController.text,
                     password: passwordController.text,
-                    fuel: ref.watch(
+                    fuel: ref.read(
                       authNotifierProvider.select((s) => s.selectedFuel),
                     ),
-                    tankSize: ref.watch(
+                    tankSize: ref.read(
                       authNotifierProvider.select((s) => s.tankSize),
                     ),
                   );

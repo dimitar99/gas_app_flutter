@@ -83,6 +83,7 @@ class _Email extends StatelessWidget {
           controller: emailController,
           hintText: 'test@email.com',
           validator: FormValidators.email,
+          keyboardType: TextInputType.emailAddress,
         ),
       ],
     );
@@ -107,8 +108,12 @@ class _Password extends StatelessWidget {
             if (value == null || value.isEmpty) {
               return 'Por favor, ingrese su contraseña';
             }
+            if (value.length < 6) {
+              return 'La contraseña debe tener al menos 6 caracteres';
+            }
             return null;
           },
+          textInputAction: TextInputAction.done,
         ),
       ],
     );
@@ -175,7 +180,9 @@ class _FuelType extends ConsumerWidget {
             DropdownMenuItem(value: 'glp', child: Text('GLP')),
             DropdownMenuItem(value: 'gnc', child: Text('GNC')),
           ],
-          value: ref.watch(authNotifierProvider.select((s) => s.selectedFuel)),
+          initialValue: ref.read(
+            authNotifierProvider.select((s) => s.selectedFuel),
+          ),
           onChanged: (value) =>
               ref.read(authNotifierProvider.notifier).setFuel(value!),
         ),

@@ -1,10 +1,20 @@
+import 'dart:io';
+
 import 'package:dio/dio.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:gas_app/features/auth/data/dto/auth_response_dto.dart';
 
-class AuthRemoteDatasource {
-  final Dio dio;
+Dio dio = Dio(
+  BaseOptions(
+    connectTimeout: const Duration(seconds: 30),
+    receiveTimeout: const Duration(seconds: 30),
+    headers: {'Content-Type': 'application/json', 'Accept': 'application/json'},
+    baseUrl: dotenv.env[Platform.isAndroid ? 'BASE_URL_ANDROID' : 'BASE_URL']!,
+  ),
+);
 
-  AuthRemoteDatasource(this.dio);
+class AuthRemoteDatasource {
+  AuthRemoteDatasource();
 
   Future<AuthResponseDto> login(String email, String password) async {
     final response = await dio.post(
@@ -32,6 +42,4 @@ class AuthRemoteDatasource {
 
     return AuthResponseDto.fromJson(response.data);
   }
-
-  Future<void> logout() async => await dio.post('/auth/logout');
 }

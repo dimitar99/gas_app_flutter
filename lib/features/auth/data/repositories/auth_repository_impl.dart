@@ -23,8 +23,14 @@ class AuthRepositoryImpl implements AuthRepository {
     try {
       final response = await remoteDatasource.login(email, password);
 
-      await tokenStorage.saveAccessToken(response.accessToken);
-      await tokenStorage.saveRefreshToken(response.refreshToken);
+      await tokenStorage.saveAccessToken(
+        response.accessToken,
+        response.accessTokenExpirationDate,
+      );
+      await tokenStorage.saveRefreshToken(
+        response.refreshToken,
+        response.refreshTokenExpirationDate,
+      );
       await userStorage.saveUser(response.user.toEntity());
 
       return response.user.toEntity();
@@ -50,8 +56,14 @@ class AuthRepositoryImpl implements AuthRepository {
         tankSize: tankSize,
       );
 
-      await tokenStorage.saveAccessToken(response.accessToken);
-      await tokenStorage.saveRefreshToken(response.refreshToken);
+      await tokenStorage.saveAccessToken(
+        response.accessToken,
+        response.accessTokenExpirationDate,
+      );
+      await tokenStorage.saveRefreshToken(
+        response.refreshToken,
+        response.refreshTokenExpirationDate,
+      );
       await userStorage.saveUser(response.user.toEntity());
 
       return response.user.toEntity();
@@ -64,14 +76,7 @@ class AuthRepositoryImpl implements AuthRepository {
 
   @override
   Future<void> logout() async {
-    try {
-      await tokenStorage.clear();
-      await userStorage.clear();
-      await remoteDatasource.logout();
-    } on DioException catch (e) {
-      throw DioErrorMapper.map(e);
-    } catch (_) {
-      throw const UnknownNetworkException();
-    }
+    await tokenStorage.clear();
+    await userStorage.clear();
   }
 }

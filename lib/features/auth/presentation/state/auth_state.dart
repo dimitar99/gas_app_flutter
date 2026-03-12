@@ -13,7 +13,6 @@ class AuthState {
   final AuthScreen screen;
   final String selectedFuel;
   final double tankSize;
-  final bool showPasswordError;
 
   const AuthState({
     this.status = AuthStateStatus.initial,
@@ -22,7 +21,6 @@ class AuthState {
     this.screen = AuthScreen.login,
     this.selectedFuel = 'gasoline95',
     this.tankSize = 50,
-    this.showPasswordError = false,
   });
 
   factory AuthState.initial() => const AuthState();
@@ -51,7 +49,6 @@ class AuthState {
     AuthScreen? screen,
     String? selectedFuel,
     double? tankSize,
-    bool? showPasswordError,
   }) {
     return AuthState(
       status: status ?? this.status,
@@ -60,7 +57,6 @@ class AuthState {
       screen: screen ?? this.screen,
       selectedFuel: selectedFuel ?? this.selectedFuel,
       tankSize: tankSize ?? this.tankSize,
-      showPasswordError: showPasswordError ?? this.showPasswordError,
     );
   }
 }

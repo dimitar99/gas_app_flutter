@@ -12,10 +12,12 @@ class AuthNotifier extends _$AuthNotifier {
   AuthState build() => AuthState.initial();
 
   Future<void> checkSession() async {
-    final token = await ref.read(tokenStorageProvider).getAccessToken();
+    final isValidAccessToken = await ref
+        .read(tokenStorageProvider)
+        .isValidAccessToken();
     final user = await ref.read(userStorageProvider).getUser();
 
-    if (token != null && user != null) {
+    if (isValidAccessToken && user != null) {
       state = AuthState.authenticated(user);
     } else {
       state = AuthState.unauthenticated();
@@ -49,7 +51,6 @@ class AuthNotifier extends _$AuthNotifier {
       state = state.copyWith(
         status: AuthStateStatus.error,
         errorType: AuthErrorTypeMapper.fromException(e),
-        showPasswordError: true,
       );
     }
   }

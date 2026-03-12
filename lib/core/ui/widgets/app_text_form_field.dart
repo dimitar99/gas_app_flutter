@@ -6,6 +6,7 @@ class AppTextFormField extends StatefulWidget {
   final TextEditingController controller;
   final String? hintText;
   final TextInputType keyboardType;
+  final TextInputAction textInputAction;
   final bool? obscureText;
   final String? Function(String?)? validator;
   const AppTextFormField({
@@ -13,6 +14,7 @@ class AppTextFormField extends StatefulWidget {
     required this.controller,
     this.hintText,
     this.keyboardType = TextInputType.text,
+    this.textInputAction = TextInputAction.next,
     this.obscureText,
     this.validator,
   });
@@ -67,6 +69,8 @@ class _AppTextFormFieldState extends State<AppTextFormField> {
               )
             : null,
       ),
+      keyboardType: widget.keyboardType,
+      textInputAction: widget.textInputAction,
     );
   }
 }
