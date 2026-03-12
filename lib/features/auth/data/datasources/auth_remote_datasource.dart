@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:gas_app/features/auth/data/dto/auth_refresh_dto.dart';
 import 'package:gas_app/features/auth/data/dto/auth_response_dto.dart';
 
 Dio dio = Dio(
@@ -22,6 +23,14 @@ class AuthRemoteDatasource {
       data: {'email': email, 'password': password},
     );
     return AuthResponseDto.fromJson(response.data);
+  }
+
+  Future<AuthRefreshDto> refreshToken(String refreshToken) async {
+    final response = await dio.post(
+      '/auth/refresh',
+      data: {'refreshToken': refreshToken},
+    );
+    return AuthRefreshDto.fromJson(response.data);
   }
 
   Future<AuthResponseDto> register({

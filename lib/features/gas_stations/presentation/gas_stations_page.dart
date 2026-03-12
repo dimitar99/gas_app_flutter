@@ -21,23 +21,6 @@ class GasStationsPage extends ConsumerStatefulWidget {
 
 class _GasStationsPageState extends ConsumerState<GasStationsPage> {
   @override
-  void initState() {
-    super.initState();
-    Future.microtask(() async {
-      try {
-        ref.read(gasStationsNotifierProvider.notifier).loadNearby();
-      } catch (e) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Error al obtener las gasolineras'),
-            backgroundColor: Colors.redAccent,
-          ),
-        );
-      }
-    });
-  }
-
-  @override
   Widget build(BuildContext context) {
     final state = ref.watch(gasStationsNotifierProvider);
 

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:gas_app/core/router/routes.dart';
 import 'package:gas_app/core/theme/app_spacing.dart';
 import 'package:gas_app/core/theme/app_text_styles.dart';
 import 'package:gas_app/features/auth/presentation/notifiers/auth_notifier.dart';
@@ -8,7 +7,6 @@ import 'package:gas_app/features/auth/presentation/state/auth_state.dart';
 import 'package:gas_app/features/auth/presentation/widgets/fuel_logo.dart';
 import 'package:gas_app/features/auth/presentation/widgets/login_form.dart';
 import 'package:gas_app/features/auth/presentation/widgets/register_form.dart';
-import 'package:go_router/go_router.dart';
 
 class AuthPage extends ConsumerWidget {
   const AuthPage({super.key});
@@ -16,9 +14,7 @@ class AuthPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     ref.listen(authNotifierProvider, (previous, next) {
-      if (next.status == AuthStateStatus.authenticated) {
-        context.go(AppRoutes.gasStations);
-      } else if (next.status == AuthStateStatus.error) {
+      if (next.status == AuthStateStatus.error) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(

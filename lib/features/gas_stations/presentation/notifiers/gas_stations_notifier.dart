@@ -13,7 +13,10 @@ part 'gas_stations_notifier.g.dart';
 @riverpod
 class GasStationsNotifier extends _$GasStationsNotifier {
   @override
-  GasStationsState build() => GasStationsState.initial();
+  GasStationsState build() {
+    Future.microtask(() => loadNearby());
+    return GasStationsState.initial();
+  }
 
   Future<void> loadNearby({double radius = 5}) async {
     state = GasStationsState.loading();

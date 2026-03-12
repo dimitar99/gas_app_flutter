@@ -1,25 +1,20 @@
-import 'package:gas_app/features/auth/data/dto/user_model_dto.dart';
-
-class AuthResponseDto {
+class AuthRefreshDto {
   final String accessToken;
   final String refreshToken;
-  final UserModelDto user;
   final DateTime accessTokenExpirationDate;
   final DateTime refreshTokenExpirationDate;
 
-  AuthResponseDto({
+  AuthRefreshDto({
     required this.accessToken,
     required this.refreshToken,
-    required this.user,
     required this.accessTokenExpirationDate,
     required this.refreshTokenExpirationDate,
   });
 
-  factory AuthResponseDto.fromJson(Map<String, dynamic> json) {
-    return AuthResponseDto(
+  factory AuthRefreshDto.fromJson(Map<String, dynamic> json) {
+    return AuthRefreshDto(
       accessToken: json['accessToken'],
       refreshToken: json['refreshToken'],
-      user: UserModelDto.fromJson(json['user']),
       accessTokenExpirationDate: DateTime.now().add(
         Duration(seconds: json['expires_in']),
       ),

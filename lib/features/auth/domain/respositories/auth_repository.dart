@@ -8,5 +8,6 @@ abstract class AuthRepository {
     required String fuel,
     required double tankSize,
   });
+  Future<bool> refreshToken(String refreshToken);
   Future<void> logout();
 }

@@ -3,7 +3,7 @@ import 'package:gas_app/core/router/routes.dart';
 import 'package:gas_app/features/auth/presentation/auth_page.dart';
 import 'package:gas_app/features/auth/presentation/notifiers/auth_notifier.dart';
 import 'package:gas_app/features/auth/presentation/state/auth_state.dart';
-import 'package:gas_app/features/gas_stations/presentation/pages/gas_stations_page.dart';
+import 'package:gas_app/features/gas_stations/presentation/gas_stations_page.dart';
 import 'package:go_router/go_router.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';

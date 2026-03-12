@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:dio/dio.dart';
 import 'package:gas_app/core/network/error_mapper.dart';
 import 'package:gas_app/core/network/exceptions/network_exception.dart';
@@ -70,6 +72,28 @@ class AuthRepositoryImpl implements AuthRepository {
     } on DioException catch (e) {
       throw DioErrorMapper.map(e);
     } catch (_) {
+      throw const UnknownNetworkException();
+    }
+  }
+
+  @override
+  Future<bool> refreshToken(String refreshToken) async {
+    try {
+      final response = await remoteDatasource.refreshToken(refreshToken);
+      await tokenStorage.saveAccessToken(
+        response.accessToken,
+        response.accessTokenExpirationDate,
+      );
+      await tokenStorage.saveRefreshToken(
+        response.refreshToken,
+        response.refreshTokenExpirationDate,
+      );
+      return true;
+    } on DioException catch (e) {
+      log('Refresh failed', name: 'AUTH_REPO', error: e);
+      throw DioErrorMapper.map(e);
+    } catch (e) {
+      log('Unknown refresh error', name: 'AUTH_REPO', error: e);
       throw const UnknownNetworkException();
     }
   }

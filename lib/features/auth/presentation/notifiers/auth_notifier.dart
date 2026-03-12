@@ -18,13 +18,20 @@ class AuthNotifier extends _$AuthNotifier {
     final isValidAccessToken = await ref
         .read(tokenStorageProvider)
         .isValidAccessToken();
+
+    if (!isValidAccessToken) {
+      final success = await refreshToken();
+      if (!success) {
+        state = AuthState.unauthenticated();
+        return;
+      }
+    }
+
     final user = await ref.read(userStorageProvider).getUser();
 
-    if (isValidAccessToken && user != null) {
-      state = AuthState.authenticated(user);
-    } else {
-      state = AuthState.unauthenticated();
-    }
+    state = user != null
+        ? AuthState.authenticated(user)
+        : AuthState.unauthenticated();
   }
 
   void changeScreen() {
@@ -80,6 +87,28 @@ class AuthNotifier extends _$AuthNotifier {
         status: AuthStateStatus.error,
         errorType: AuthErrorTypeMapper.fromException(e),
       );
+    }
+  }
+
+  Future<bool> refreshToken() async {
+    try {
+      final refreshToken = await ref
+          .read(tokenStorageProvider)
+          .getRefreshToken();
+      if (refreshToken == null) return false;
+
+      final authResp = await ref
+          .read(refreshTokenUseCaseProvider)
+          .call(refreshToken);
+
+      if (authResp == false) {
+        state = AuthState.unauthenticated();
+      }
+
+      return authResp;
+    } catch (e) {
+      state = AuthState.unauthenticated();
+      return false;
     }
   }
 
