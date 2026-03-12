@@ -9,7 +9,10 @@ part 'auth_notifier.g.dart';
 @riverpod
 class AuthNotifier extends _$AuthNotifier {
   @override
-  AuthState build() => AuthState.initial();
+  AuthState build() {
+    Future.microtask(() => checkSession());
+    return AuthState.initial();
+  }
 
   Future<void> checkSession() async {
     final isValidAccessToken = await ref

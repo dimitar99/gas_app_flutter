@@ -1,3 +1,4 @@
+import 'package:gas_app/core/router/router_listenable.dart';
 import 'package:gas_app/core/router/routes.dart';
 import 'package:gas_app/features/auth/presentation/auth_page.dart';
 import 'package:gas_app/features/auth/presentation/notifiers/auth_notifier.dart';
@@ -8,19 +9,23 @@ import 'package:go_router/go_router.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final appRouterProvider = Provider<GoRouter>((ref) {
+  final listenable = ref.watch(routerListenableProvider);
+
   return GoRouter(
     initialLocation: AppRoutes.auth,
+    refreshListenable: listenable,
     redirect: (context, state) {
-      final authStatus = ref.watch(
-        authNotifierProvider.select((s) => s.status),
-      );
+      final authState = ref.read(authNotifierProvider);
+      final status = authState.status;
 
-      if (authStatus == AuthStateStatus.unauthenticated) {
-        return AppRoutes.auth;
+      final isLoggingIn = state.matchedLocation == AppRoutes.auth;
+
+      if (status == AuthStateStatus.unauthenticated) {
+        return isLoggingIn ? null : AppRoutes.auth;
       }
 
-      if (authStatus == AuthStateStatus.authenticated) {
-        return AppRoutes.gasStations;
+      if (status == AuthStateStatus.authenticated) {
+        return isLoggingIn ? AppRoutes.gasStations : null;
       }
 
       return null;
