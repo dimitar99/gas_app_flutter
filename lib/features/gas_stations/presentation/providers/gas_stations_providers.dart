@@ -1,4 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:gas_app/core/location/location_provider.dart';
 import 'package:gas_app/core/network/providers/dio_provider.dart';
 import 'package:gas_app/features/gas_stations/data/datasources/gas_stations_remote_datasource.dart';
 import 'package:gas_app/features/gas_stations/data/repositories/gas_station_repository_impl.dart';
@@ -30,11 +31,20 @@ final gasStationsSearchQueryProvider = StateProvider<String>((ref) => '');
 final filteredGasStationsProvider = Provider<List<GasStation>>((ref) {
   final query = ref.watch(gasStationsSearchQueryProvider).trim().toLowerCase();
   final state = ref.watch(gasStationsNotifierProvider);
+  final location = ref.watch(locationProvider).value;
   final all = state.gasStations;
 
-  if (query.isEmpty) return all;
+  if (location == null) return all;
 
-  return all.where((g) {
+  final allWithDistance = all.map((g) {
+    return g.copyWith(
+      distance: g.calculateDistance(location.latitude, location.longitude),
+    );
+  }).toList();
+
+  if (query.isEmpty) return allWithDistance;
+
+  return allWithDistance.where((g) {
     final combined = '${g.name} ${g.address} ${g.city} ${g.province}'
         .toLowerCase();
     return combined.contains(query);
