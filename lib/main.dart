@@ -5,22 +5,6 @@ import 'package:gas_app/core/router/app_router_provider.dart';
 import 'package:gas_app/features/auth/presentation/providers/auth_providers.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class AppObserver extends ProviderObserver {
-  @override
-  void didUpdateProvider(
-    ProviderBase provider,
-    Object? previousValue,
-    Object? newValue,
-    ProviderContainer container,
-  ) {
-    debugPrint('''
-PROVIDER: ${provider.name ?? provider.runtimeType}
-PREVIOUS: $previousValue
-NEW: $newValue
-''');
-  }
-}
-
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await dotenv.load(fileName: '.env');
@@ -29,7 +13,6 @@ Future<void> main() async {
 
   runApp(
     ProviderScope(
-      observers: [AppObserver()],
       overrides: [
         sharedPreferencesProvider.overrideWithValue(sharedPreferences),
       ],

@@ -1,23 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gas_app/core/theme/app_spacing.dart';
-import 'package:gas_app/features/auth/presentation/providers/auth_usecases_providers.dart';
 import 'package:gas_app/features/gas_stations/domain/entities/gas_station.dart';
 import 'package:gas_app/features/gas_stations/presentation/notifiers/gas_stations_notifier.dart';
 import 'package:gas_app/features/gas_stations/presentation/providers/gas_stations_providers.dart';
 import 'package:gas_app/features/gas_stations/presentation/state/gas_stations_state.dart';
 import 'package:gas_app/features/gas_stations/presentation/widgets/gas_station_item.dart';
+import 'package:go_router/go_router.dart';
 
-class GasStationsPage extends ConsumerStatefulWidget {
+class GasStationsPage extends ConsumerWidget {
   const GasStationsPage({super.key});
 
   @override
-  ConsumerState<GasStationsPage> createState() => _GasStationsPageState();
-}
-
-class _GasStationsPageState extends ConsumerState<GasStationsPage> {
-  @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(gasStationsNotifierProvider);
 
     return GestureDetector(
@@ -27,8 +22,8 @@ class _GasStationsPageState extends ConsumerState<GasStationsPage> {
           title: const Text('Gasolineras'),
           actions: [
             IconButton(
-              icon: const Icon(Icons.logout),
-              onPressed: () => ref.read(logoutUseCaseProvider).call(),
+              icon: const Icon(Icons.person),
+              onPressed: () => {context.push('/profile')},
             ),
           ],
         ),

@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:gas_app/core/theme/app_colors.dart';
 import 'package:gas_app/core/theme/app_spacing.dart';
 import 'package:gas_app/core/theme/app_text_styles.dart';
 import 'package:gas_app/core/ui/validators/form_validators.dart';
 import 'package:gas_app/core/ui/widgets/app_text_form_field.dart';
+import 'package:gas_app/core/ui/widgets/fuel_type_selector.dart';
+import 'package:gas_app/core/ui/widgets/gas_app_selector.dart';
 import 'package:gas_app/features/auth/presentation/notifiers/auth_notifier.dart';
 import 'package:gas_app/features/auth/presentation/widgets/form_field_label.dart';
 import 'package:gas_app/features/auth/presentation/widgets/login_register_button.dart';
@@ -48,10 +49,23 @@ class _RegisterFormState extends ConsumerState<RegisterForm> {
               const _OptionalText(),
               AppVerticalSpacing.s24,
 
-              const _FuelType(),
+              FuelTypeSelector(
+                initialValue: ref.read(
+                  authNotifierProvider.select((s) => s.selectedFuel),
+                ),
+                onChanged: (value) =>
+                    ref.read(authNotifierProvider.notifier).setFuel(value!),
+              ),
               AppVerticalSpacing.s24,
 
-              const _TankCapacitySlider(),
+              GasAppSelector(
+                type: SelectorType.tank,
+                value: ref.watch(
+                  authNotifierProvider.select((s) => s.tankSize),
+                ),
+                onChanged: (value) =>
+                    ref.read(authNotifierProvider.notifier).setTankSize(value),
+              ),
             ],
           ),
           AppVerticalSpacing.s16,
@@ -134,97 +148,6 @@ class _OptionalText extends StatelessWidget {
           child: Text('Preferencias (opcional)', style: AppTextStyles.body),
         ),
         Expanded(child: Divider()),
-      ],
-    );
-  }
-}
-
-class _FuelType extends ConsumerWidget {
-  const _FuelType();
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    return Column(
-      children: [
-        const FormFieldLabel(
-          fieldType: FieldType.fuel,
-          text: 'Tipo de combustible preferido',
-        ),
-        AppVerticalSpacing.s8,
-        DropdownButtonFormField(
-          decoration: const InputDecoration(
-            border: OutlineInputBorder(
-              borderSide: BorderSide(color: AppColors.textSecondary),
-              borderRadius: BorderRadius.all(Radius.circular(12)),
-            ),
-            focusedBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: AppColors.textSecondary, width: 1),
-              borderRadius: BorderRadius.all(Radius.circular(12)),
-            ),
-          ),
-          icon: const Icon(
-            Icons.arrow_drop_down,
-            color: AppColors.textSecondary,
-          ),
-          hint: const Text(
-            'Seleccione un combustible',
-            style: AppTextStyles.small,
-          ),
-          style: AppTextStyles.heading4,
-          dropdownColor: AppColors.white,
-          items: const [
-            DropdownMenuItem(value: 'gasoline95', child: Text('Gasolina 95')),
-            DropdownMenuItem(value: 'gasoline98', child: Text('Gasolina 98')),
-            DropdownMenuItem(value: 'dieselA', child: Text('Diesel')),
-            DropdownMenuItem(value: 'dieselB', child: Text('Diesel Premium')),
-            DropdownMenuItem(value: 'glp', child: Text('GLP')),
-            DropdownMenuItem(value: 'gnc', child: Text('GNC')),
-          ],
-          initialValue: ref.read(
-            authNotifierProvider.select((s) => s.selectedFuel),
-          ),
-          onChanged: (value) =>
-              ref.read(authNotifierProvider.notifier).setFuel(value!),
-        ),
-      ],
-    );
-  }
-}
-
-class _TankCapacitySlider extends ConsumerWidget {
-  const _TankCapacitySlider();
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final tankSize = ref.watch(authNotifierProvider.select((s) => s.tankSize));
-
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        const FormFieldLabel(
-          fieldType: FieldType.tank,
-          text: 'Capacidad del depósito (litros)',
-        ),
-        AppVerticalSpacing.s16,
-        Slider(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
-          value: tankSize,
-          min: 10,
-          max: 130,
-          divisions: 24,
-          thumbColor: AppColors.primary,
-          activeColor: AppColors.primary,
-          onChanged: (value) {
-            ref.read(authNotifierProvider.notifier).setTankSize(value);
-          },
-        ),
-        Padding(
-          padding: const EdgeInsets.only(top: 8, left: 12),
-          child: Text(
-            '${tankSize.toStringAsFixed(0)} litros',
-            style: AppTextStyles.heading4,
-          ),
-        ),
       ],
     );
   }
