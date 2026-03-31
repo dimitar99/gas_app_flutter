@@ -5,7 +5,8 @@ import 'package:gas_app/core/theme/app_spacing.dart';
 import 'package:gas_app/core/theme/app_text_styles.dart';
 import 'package:gas_app/core/ui/widgets/fuel_type_selector.dart';
 import 'package:gas_app/core/ui/widgets/gas_app_selector.dart';
-import 'package:gas_app/features/profile/presentation/notifier/profile_notifier.dart';
+import 'package:gas_app/features/auth/presentation/notifiers/auth_notifier.dart';
+import 'package:gas_app/features/profile/presentation/notifiers/profile_notifier.dart';
 import 'package:gas_app/features/profile/presentation/state/profile_state.dart';
 
 class ProfilePage extends ConsumerWidget {
@@ -24,7 +25,12 @@ class ProfilePage extends ConsumerWidget {
       body: switch (state.status) {
         ProfileStatus.initial || ProfileStatus.loading => Container(),
         ProfileStatus.editing || ProfileStatus.success => _Preferences(state),
-        ProfileStatus.error => const Center(child: Text('Error')),
+        ProfileStatus.error => Center(
+          child: Container(
+            margin: const EdgeInsets.only(bottom: kToolbarHeight),
+            child: const Text('Ha ocurrido un error'),
+          ),
+        ),
       },
     );
   }
@@ -43,7 +49,9 @@ class _Preferences extends ConsumerWidget {
 
     final fuel = ref.read(profileNotifierProvider).fuel;
     final tankSize = ref.watch(profileNotifierProvider).tankSize;
-    final radio = ref.watch(profileNotifierProvider).radio;
+    final radius = ref.watch(profileNotifierProvider).radius;
+
+    final profileNotifier = ref.read(profileNotifierProvider.notifier);
 
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 16),
@@ -128,9 +136,7 @@ class _Preferences extends ConsumerWidget {
                 FuelTypeSelector(
                   enabled: isEditing,
                   initialValue: fuel!,
-                  onChanged: (value) => ref
-                      .read(profileNotifierProvider.notifier)
-                      .updateFuel(value!),
+                  onChanged: (value) => profileNotifier.updateFuel(value!),
                 ),
                 AppVerticalSpacing.s24,
 
@@ -138,19 +144,15 @@ class _Preferences extends ConsumerWidget {
                   type: SelectorType.tank,
                   enabled: isEditing,
                   value: tankSize!,
-                  onChanged: (value) => ref
-                      .read(profileNotifierProvider.notifier)
-                      .updateTankSize(value),
+                  onChanged: (value) => profileNotifier.updateTankSize(value),
                 ),
                 AppVerticalSpacing.s24,
 
                 GasAppSelector(
                   type: SelectorType.radio,
                   enabled: isEditing,
-                  value: radio!,
-                  onChanged: (value) => ref
-                      .read(profileNotifierProvider.notifier)
-                      .updateRadio(value),
+                  value: radius!,
+                  onChanged: (value) => profileNotifier.updateRadio(value),
                 ),
                 AppVerticalSpacing.s24,
 
@@ -162,7 +164,11 @@ class _Preferences extends ConsumerWidget {
                         child: SizedBox(
                           width: MediaQuery.sizeOf(context).width * 0.6,
                           child: ElevatedButton(
-                            onPressed: () {},
+                            onPressed: () => profileNotifier.updatePreferences(
+                              fuel,
+                              tankSize,
+                              radius,
+                            ),
                             style: const ButtonStyle(
                               backgroundColor: WidgetStatePropertyAll(
                                 AppColors.primary,
@@ -181,6 +187,21 @@ class _Preferences extends ConsumerWidget {
                     ],
                   ),
               ],
+            ),
+          ),
+          AppVerticalSpacing.s12,
+
+          SizedBox(
+            width: MediaQuery.sizeOf(context).width * 0.8,
+            child: ElevatedButton(
+              onPressed: () => ref.read(authNotifierProvider.notifier).logout(),
+              style: const ButtonStyle(
+                backgroundColor: WidgetStatePropertyAll(AppColors.error),
+              ),
+              child: Text(
+                'Cerrar sesión',
+                style: AppTextStyles.heading4.copyWith(color: AppColors.white),
+              ),
             ),
           ),
         ],

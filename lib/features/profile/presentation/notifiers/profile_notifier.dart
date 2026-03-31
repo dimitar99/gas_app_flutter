@@ -1,4 +1,5 @@
 import 'package:gas_app/features/auth/presentation/providers/auth_providers.dart';
+import 'package:gas_app/features/profile/presentation/providers/profile_usecases_provider.dart';
 import 'package:gas_app/features/profile/presentation/state/profile_state.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -37,7 +38,7 @@ class ProfileNotifier extends _$ProfileNotifier {
             status: ProfileStatus.success,
             fuel: state.initialFuel,
             tankSize: state.initialTankSize,
-            radio: state.radio,
+            radius: state.radius,
           );
   }
 
@@ -49,7 +50,24 @@ class ProfileNotifier extends _$ProfileNotifier {
     state = state.copyWith(tankSize: tankSize);
   }
 
-  void updateRadio(double radio) {
-    state = state.copyWith(radio: radio);
+  void updateRadio(double radius) {
+    state = state.copyWith(radius: radius);
+  }
+
+  Future<void> updatePreferences(
+    String fuel,
+    double tankSize,
+    double radius,
+  ) async {
+    state = ProfileState.loading();
+
+    final resp = await ref
+        .read(updatePreferencesUseCaseProvider)
+        .call(fuel, tankSize, radius);
+    if (resp) {
+      await loadData();
+    } else {
+      state = ProfileState.error();
+    }
   }
 }

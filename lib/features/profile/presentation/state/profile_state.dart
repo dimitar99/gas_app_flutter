@@ -6,7 +6,7 @@ class ProfileState {
   final double? initialTankSize;
   final String? fuel;
   final double? tankSize;
-  final double? radio;
+  final double? radius;
 
   const ProfileState({
     this.status = ProfileStatus.initial,
@@ -14,7 +14,7 @@ class ProfileState {
     this.initialTankSize,
     this.fuel,
     this.tankSize,
-    this.radio,
+    this.radius,
   });
 
   factory ProfileState.initial() => const ProfileState();
@@ -25,14 +25,14 @@ class ProfileState {
   factory ProfileState.error() =>
       const ProfileState(status: ProfileStatus.error);
 
-  factory ProfileState.success(String fuel, double tankSize, double radio) =>
+  factory ProfileState.success(String fuel, double tankSize, double radius) =>
       ProfileState(
         status: ProfileStatus.success,
         initialFuel: fuel,
         initialTankSize: tankSize,
         fuel: fuel,
         tankSize: tankSize,
-        radio: radio,
+        radius: radius,
       );
 
   ProfileState copyWith({
@@ -41,7 +41,7 @@ class ProfileState {
     double? initialTankSize,
     String? fuel,
     double? tankSize,
-    double? radio,
+    double? radius,
   }) {
     return ProfileState(
       status: status ?? this.status,
@@ -49,7 +49,7 @@ class ProfileState {
       initialTankSize: initialTankSize ?? this.initialTankSize,
       fuel: fuel ?? this.fuel,
       tankSize: tankSize ?? this.tankSize,
-      radio: radio ?? this.radio,
+      radius: radius ?? this.radius,
     );
   }
 }
