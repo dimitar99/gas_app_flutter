@@ -30,7 +30,7 @@ class GasStationsPage extends ConsumerWidget {
         body: switch (state.status) {
           GasStationsStatus.initial => const Loading(),
           GasStationsStatus.loading => const Loading(),
-          GasStationsStatus.success => Gasolineras(state: state),
+          GasStationsStatus.success => Body(state: state),
           GasStationsStatus.error => Error(state: state),
         },
       ),
@@ -52,16 +52,16 @@ class Loading extends StatelessWidget {
   }
 }
 
-class Gasolineras extends ConsumerStatefulWidget {
-  const Gasolineras({super.key, required this.state});
+class Body extends ConsumerStatefulWidget {
+  const Body({super.key, required this.state});
 
   final GasStationsState state;
 
   @override
-  ConsumerState<Gasolineras> createState() => _GasolinerasState();
+  ConsumerState<Body> createState() => _GasolinerasState();
 }
 
-class _GasolinerasState extends ConsumerState<Gasolineras> {
+class _GasolinerasState extends ConsumerState<Body> {
   late final TextEditingController _searchController;
 
   @override

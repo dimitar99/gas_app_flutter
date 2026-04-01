@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gas_app/core/theme/app_colors.dart';
 
 class FuelLogo extends StatelessWidget {
   const FuelLogo({super.key});
@@ -11,7 +12,11 @@ class FuelLogo extends StatelessWidget {
         color: Color(0xFF4f39f6),
         shape: BoxShape.circle,
       ),
-      child: const Icon(Icons.local_gas_station, color: Colors.white, size: 40),
+      child: const Icon(
+        Icons.local_gas_station,
+        color: AppColors.white,
+        size: 40,
+      ),
     );
   }
 }

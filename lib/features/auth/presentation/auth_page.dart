@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:gas_app/core/theme/app_colors.dart';
 import 'package:gas_app/core/theme/app_spacing.dart';
 import 'package:gas_app/core/theme/app_text_styles.dart';
 import 'package:gas_app/features/auth/presentation/notifiers/auth_notifier.dart';
@@ -21,8 +22,9 @@ class AuthPage extends ConsumerWidget {
               next.errorType == AuthErrorType.invalidCredentials
                   ? 'Credenciales inválidas'
                   : 'Ha ocurrido un error',
+              style: AppTextStyles.heading4.copyWith(color: AppColors.white),
             ),
-            backgroundColor: Colors.redAccent,
+            backgroundColor: AppColors.error,
           ),
         );
       }
@@ -43,11 +45,11 @@ class AuthPage extends ConsumerWidget {
               bottom: kToolbarHeight,
             ),
             decoration: BoxDecoration(
-              color: Colors.white,
+              color: AppColors.white,
               borderRadius: BorderRadius.circular(12),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black.withValues(alpha: 0.1),
+                  color: AppColors.textPrimary.withValues(alpha: 0.1),
                   blurRadius: 4,
                   offset: const Offset(2, 2),
                 ),

@@ -30,19 +30,19 @@ class GasDetailPrice extends StatelessWidget {
   Color colorByType() {
     switch (type) {
       case GasType.gasoline95:
-        return Colors.lightGreen;
+        return AppColors.lightGreen;
       case GasType.gasoline98:
-        return Colors.green;
+        return AppColors.success;
       case GasType.dieselA:
-        return Colors.grey;
+        return AppColors.darkGrey;
       case GasType.dieselB:
-        return Colors.black;
+        return AppColors.textPrimary;
       case GasType.adblue:
-        return Colors.blue;
+        return AppColors.blue;
       case GasType.glp:
-        return Colors.lime;
+        return AppColors.lime;
       case GasType.gnc:
-        return Colors.orange;
+        return AppColors.orange;
     }
   }
 

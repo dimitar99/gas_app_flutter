@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gas_app/core/theme/app_colors.dart';
+import 'package:gas_app/core/theme/app_text_styles.dart';
 import 'package:gas_app/features/auth/presentation/notifiers/auth_notifier.dart';
 import 'package:gas_app/features/auth/presentation/state/auth_state.dart';
 
@@ -56,24 +57,29 @@ class LoginRegisterButton extends ConsumerWidget {
           ),
         ),
         child: status == AuthStateStatus.loading
-            ? const Row(
+            ? Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  SizedBox(
+                  const SizedBox(
                     width: 16,
                     height: 16,
                     child: CircularProgressIndicator(
-                      color: Colors.white,
+                      color: AppColors.white,
                       strokeWidth: 2,
                     ),
                   ),
-                  SizedBox(width: 8),
-                  Text('Procesando...', style: TextStyle(color: Colors.white)),
+                  const SizedBox(width: 8),
+                  Text(
+                    'Procesando...',
+                    style: AppTextStyles.smallBold.copyWith(
+                      color: AppColors.white,
+                    ),
+                  ),
                 ],
               )
             : Text(
                 screen == AuthScreen.login ? 'Iniciar sesión' : 'Registrarse',
-                style: const TextStyle(color: Colors.white),
+                style: AppTextStyles.smallBold.copyWith(color: AppColors.white),
               ),
       ),
     );

@@ -7,6 +7,7 @@ class ProfileState {
   final String? fuel;
   final double? tankSize;
   final double? radius;
+  final bool navigateBack;
 
   const ProfileState({
     this.status = ProfileStatus.initial,
@@ -15,6 +16,7 @@ class ProfileState {
     this.fuel,
     this.tankSize,
     this.radius,
+    this.navigateBack = false,
   });
 
   factory ProfileState.initial() => const ProfileState();
@@ -25,15 +27,20 @@ class ProfileState {
   factory ProfileState.error() =>
       const ProfileState(status: ProfileStatus.error);
 
-  factory ProfileState.success(String fuel, double tankSize, double radius) =>
-      ProfileState(
-        status: ProfileStatus.success,
-        initialFuel: fuel,
-        initialTankSize: tankSize,
-        fuel: fuel,
-        tankSize: tankSize,
-        radius: radius,
-      );
+  factory ProfileState.success(
+    String fuel,
+    double tankSize,
+    double radius,
+    bool navigateBack,
+  ) => ProfileState(
+    status: ProfileStatus.success,
+    initialFuel: fuel,
+    initialTankSize: tankSize,
+    fuel: fuel,
+    tankSize: tankSize,
+    radius: radius,
+    navigateBack: navigateBack,
+  );
 
   ProfileState copyWith({
     ProfileStatus? status,

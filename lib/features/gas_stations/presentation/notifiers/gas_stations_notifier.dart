@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:gas_app/core/location/location_provider.dart';
+import 'package:gas_app/features/auth/presentation/providers/auth_providers.dart';
 import 'package:gas_app/features/gas_stations/domain/entities/gas_station.dart';
 import 'package:gas_app/features/gas_stations/presentation/providers/gas_stations_providers.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -18,7 +19,7 @@ class GasStationsNotifier extends _$GasStationsNotifier {
     return GasStationsState.initial();
   }
 
-  Future<void> loadNearby({double radius = 5}) async {
+  Future<void> loadNearby({double radius = 0}) async {
     state = GasStationsState.loading();
 
     try {
@@ -28,10 +29,21 @@ class GasStationsNotifier extends _$GasStationsNotifier {
 
       final location = await ref.read(locationProvider.future);
 
+      double searchRadius = radius;
+
+      if (searchRadius == 0) {
+        final user = await ref.read(userStorageProvider).getUser();
+        if (user != null) {
+          searchRadius = user.searchRadius.toDouble();
+        } else {
+          searchRadius = 5;
+        }
+      }
+
       final List<GasStation> stations = await nearbyGasStations.call(
         lat: location.latitude,
         lng: location.longitude,
-        radius: radius,
+        radius: searchRadius,
       );
 
       state = GasStationsState.success(stations);

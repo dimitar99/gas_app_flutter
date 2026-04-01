@@ -1,4 +1,5 @@
 import 'package:gas_app/features/auth/presentation/providers/auth_providers.dart';
+import 'package:gas_app/features/gas_stations/presentation/notifiers/gas_stations_notifier.dart';
 import 'package:gas_app/features/profile/presentation/providers/profile_usecases_provider.dart';
 import 'package:gas_app/features/profile/presentation/state/profile_state.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -13,7 +14,7 @@ class ProfileNotifier extends _$ProfileNotifier {
     return ProfileState.initial();
   }
 
-  Future<void> loadData() async {
+  Future<void> loadData({bool reloadGasStations = false}) async {
     state = ProfileState.loading();
 
     final user = await ref.read(userStorageProvider).getUser();
@@ -25,7 +26,14 @@ class ProfileNotifier extends _$ProfileNotifier {
         user.fuel,
         user.tankSize.toDouble(),
         user.searchRadius.toDouble(),
+        reloadGasStations,
       );
+
+      if (reloadGasStations) {
+        ref
+            .read(gasStationsNotifierProvider.notifier)
+            .loadNearby(radius: user.searchRadius.toDouble());
+      }
     }
   }
 
@@ -65,7 +73,7 @@ class ProfileNotifier extends _$ProfileNotifier {
         .read(updatePreferencesUseCaseProvider)
         .call(fuel, tankSize, radius);
     if (resp) {
-      await loadData();
+      await loadData(reloadGasStations: true);
     } else {
       state = ProfileState.error();
     }

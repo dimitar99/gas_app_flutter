@@ -20,10 +20,10 @@ class GasStationItem extends StatelessWidget {
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(12),
-          color: Colors.white,
+          color: AppColors.white,
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withValues(alpha: 0.1),
+              color: AppColors.textSecondary.withValues(alpha: 0.1),
               blurRadius: 4,
               offset: const Offset(0, 4),
             ),
@@ -55,14 +55,14 @@ class GasStationItem extends StatelessWidget {
                         child: const Icon(
                           Icons.navigation_outlined,
                           size: 16,
-                          color: Colors.white,
+                          color: AppColors.white,
                         ),
                       ),
                       AppHorizontalSpacing.s4,
                       Text(
                         '${gasStation.distance} km',
                         style: AppTextStyles.small.copyWith(
-                          color: Colors.white,
+                          color: AppColors.white,
                         ),
                       ),
                     ],
