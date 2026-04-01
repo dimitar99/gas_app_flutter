@@ -3,6 +3,7 @@ import 'package:gas_app/features/gas_stations/domain/entities/prices.dart';
 import 'package:geolocator/geolocator.dart';
 
 class GasStation {
+  final String id;
   final String name;
   final String? schedule;
   final Prices prices;
@@ -13,6 +14,7 @@ class GasStation {
   final double? distance;
 
   GasStation({
+    required this.id,
     required this.name,
     this.schedule,
     required this.prices,
@@ -37,6 +39,7 @@ class GasStation {
 
   GasStation copyWith({double? distance}) {
     return GasStation(
+      id: id,
       name: name,
       schedule: schedule,
       prices: prices,

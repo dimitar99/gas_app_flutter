@@ -46,4 +46,15 @@ class GasStationsNotifier extends _$GasStationsNotifier {
       );
     }
   }
+
+  GasStation? getGasStationById(String id) {
+    try {
+      final gasStation = state.filteredGasStations.firstWhere(
+        (station) => station.id == id,
+      );
+      return gasStation;
+    } catch (e) {
+      return null;
+    }
+  }
 }

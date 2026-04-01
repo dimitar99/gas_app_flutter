@@ -64,12 +64,12 @@ class _Preferences extends ConsumerWidget {
                   horizontal: 16,
                   vertical: 16,
                 ),
-                decoration: BoxDecoration(
-                  borderRadius: const BorderRadius.only(
+                decoration: const BoxDecoration(
+                  borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(16),
                     topRight: Radius.circular(16),
                   ),
-                  color: Colors.grey[300],
+                  color: AppColors.lightGrey,
                 ),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,

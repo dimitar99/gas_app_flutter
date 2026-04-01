@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gas_app/core/theme/app_spacing.dart';
 import 'package:gas_app/core/ui/validators/form_validators.dart';
 import 'package:gas_app/core/ui/widgets/app_text_form_field.dart';
-import 'package:gas_app/features/auth/presentation/widgets/form_field_label.dart';
+import 'package:gas_app/features/auth/presentation/widgets/gas_app_label.dart';
 import 'package:gas_app/features/auth/presentation/widgets/login_register_button.dart';
 
 class LoginForm extends ConsumerStatefulWidget {
@@ -35,7 +35,7 @@ class _LoginFormState extends ConsumerState<LoginForm> {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const FormFieldLabel(
+              const GasAppLabel(
                 fieldType: FieldType.email,
                 text: 'Correo electrónico',
               ),
@@ -47,7 +47,7 @@ class _LoginFormState extends ConsumerState<LoginForm> {
               ),
               AppVerticalSpacing.s24,
 
-              const FormFieldLabel(
+              const GasAppLabel(
                 fieldType: FieldType.password,
                 text: 'Contraseña',
               ),

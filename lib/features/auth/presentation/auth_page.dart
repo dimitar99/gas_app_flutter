@@ -37,7 +37,11 @@ class AuthPage extends ConsumerWidget {
         child: Center(
           child: Container(
             padding: const EdgeInsets.symmetric(horizontal: 24),
-            margin: const EdgeInsets.symmetric(horizontal: 16),
+            margin: const EdgeInsets.only(
+              left: 16,
+              right: 16,
+              bottom: kToolbarHeight,
+            ),
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(12),

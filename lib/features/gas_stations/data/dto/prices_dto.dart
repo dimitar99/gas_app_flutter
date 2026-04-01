@@ -6,6 +6,8 @@ class PricesDTO {
   final double dieselA;
   final double dieselB;
   final double adblue;
+  final double glp;
+  final double gnc;
 
   PricesDTO({
     required this.gasoline95,
@@ -13,6 +15,8 @@ class PricesDTO {
     required this.dieselA,
     required this.dieselB,
     required this.adblue,
+    required this.glp,
+    required this.gnc,
   });
 
   Prices toEntity() {
@@ -22,6 +26,8 @@ class PricesDTO {
       dieselA: dieselA,
       dieselB: dieselB,
       adblue: adblue,
+      glp: glp,
+      gnc: gnc,
     );
   }
 }

@@ -4,6 +4,7 @@ import 'package:gas_app/features/auth/presentation/auth_page.dart';
 import 'package:gas_app/features/auth/presentation/notifiers/auth_notifier.dart';
 import 'package:gas_app/features/auth/presentation/state/auth_state.dart';
 import 'package:gas_app/features/gas_stations/presentation/gas_stations_page.dart';
+import 'package:gas_app/features/gas_stations/presentation/pages/gas_stations_detail_page.dart';
 import 'package:gas_app/features/profile/presentation/profile_page.dart';
 import 'package:go_router/go_router.dart';
 
@@ -39,6 +40,13 @@ final appRouterProvider = Provider<GoRouter>((ref) {
       GoRoute(
         path: AppRoutes.gasStations,
         builder: (context, state) => const GasStationsPage(),
+      ),
+      GoRoute(
+        path: '${AppRoutes.gasStationsDetail}/:id',
+        builder: (context, state) {
+          final id = state.pathParameters['id'] ?? "";
+          return GasStationsDetailPage(gasStationId: id);
+        },
       ),
       GoRoute(
         path: AppRoutes.profile,

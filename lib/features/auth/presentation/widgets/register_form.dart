@@ -7,7 +7,7 @@ import 'package:gas_app/core/ui/widgets/app_text_form_field.dart';
 import 'package:gas_app/core/ui/widgets/fuel_type_selector.dart';
 import 'package:gas_app/core/ui/widgets/gas_app_selector.dart';
 import 'package:gas_app/features/auth/presentation/notifiers/auth_notifier.dart';
-import 'package:gas_app/features/auth/presentation/widgets/form_field_label.dart';
+import 'package:gas_app/features/auth/presentation/widgets/gas_app_label.dart';
 import 'package:gas_app/features/auth/presentation/widgets/login_register_button.dart';
 
 class RegisterForm extends ConsumerStatefulWidget {
@@ -88,7 +88,7 @@ class _Email extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        const FormFieldLabel(
+        const GasAppLabel(
           fieldType: FieldType.email,
           text: 'Correo electrónico',
         ),
@@ -112,7 +112,7 @@ class _Password extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        const FormFieldLabel(fieldType: FieldType.password, text: 'Contraseña'),
+        const GasAppLabel(fieldType: FieldType.password, text: 'Contraseña'),
         AppVerticalSpacing.s8,
         AppTextFormField(
           controller: passwordController,

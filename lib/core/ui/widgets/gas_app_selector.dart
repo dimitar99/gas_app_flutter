@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gas_app/core/theme/app_colors.dart';
 import 'package:gas_app/core/theme/app_spacing.dart';
 import 'package:gas_app/core/theme/app_text_styles.dart';
-import 'package:gas_app/features/auth/presentation/widgets/form_field_label.dart';
+import 'package:gas_app/features/auth/presentation/widgets/gas_app_label.dart';
 
 enum SelectorType { tank, radio }
 
@@ -25,7 +25,7 @@ class GasAppSelector extends ConsumerWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        FormFieldLabel(
+        GasAppLabel(
           fieldType: type == SelectorType.tank
               ? FieldType.tank
               : FieldType.radio,

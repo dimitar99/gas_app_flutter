@@ -7,4 +7,5 @@ abstract class AppColors {
   static const textSecondary = Color(0xFF6B7280);
   static const error = Color(0xFFEF4444);
   static const white = Color(0xFFFFFFFF);
+  static const lightGrey = Color.fromARGB(255, 224, 224, 224);
 }

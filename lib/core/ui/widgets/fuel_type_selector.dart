@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gas_app/core/theme/app_colors.dart';
 import 'package:gas_app/core/theme/app_spacing.dart';
 import 'package:gas_app/core/theme/app_text_styles.dart';
-import 'package:gas_app/features/auth/presentation/widgets/form_field_label.dart';
+import 'package:gas_app/features/auth/presentation/widgets/gas_app_label.dart';
 
 class FuelTypeSelector extends ConsumerWidget {
   final String initialValue;
@@ -20,7 +20,7 @@ class FuelTypeSelector extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return Column(
       children: [
-        const FormFieldLabel(
+        const GasAppLabel(
           fieldType: FieldType.fuel,
           text: 'Tipo de combustible preferido',
         ),

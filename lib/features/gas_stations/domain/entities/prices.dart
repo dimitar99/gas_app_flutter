@@ -4,6 +4,8 @@ class Prices {
   final double? dieselA;
   final double? dieselB;
   final double? adblue;
+  final double? glp;
+  final double? gnc;
 
   Prices({
     this.gasoline95,
@@ -11,5 +13,7 @@ class Prices {
     this.dieselA,
     this.dieselB,
     this.adblue,
+    this.glp,
+    this.gnc,
   });
 }
