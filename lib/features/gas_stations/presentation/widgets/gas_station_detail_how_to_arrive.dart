@@ -17,6 +17,8 @@ class GasStationDetailHowToArrive extends StatelessWidget {
       onPressed: () async {
         final availableMaps = await MapLauncher.installedMaps;
 
+        if (!context.mounted) return;
+
         showModalBottomSheet(
           context: context,
           builder: (context) {
