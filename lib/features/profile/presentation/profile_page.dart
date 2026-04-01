@@ -8,6 +8,7 @@ import 'package:gas_app/core/ui/widgets/gas_app_selector.dart';
 import 'package:gas_app/features/auth/presentation/notifiers/auth_notifier.dart';
 import 'package:gas_app/features/profile/presentation/notifiers/profile_notifier.dart';
 import 'package:gas_app/features/profile/presentation/state/profile_state.dart';
+import 'package:gas_app/l10n/app_localizations.dart';
 import 'package:go_router/go_router.dart';
 
 class ProfilePage extends ConsumerWidget {
@@ -22,7 +23,7 @@ class ProfilePage extends ConsumerWidget {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(
-              'Preferencias actualizadas',
+              AppLocalizations.of(context)!.profile_update_success,
               style: AppTextStyles.heading4.copyWith(color: AppColors.white),
             ),
             backgroundColor: AppColors.success,
@@ -34,7 +35,10 @@ class ProfilePage extends ConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Perfil'),
+        title: Text(
+          AppLocalizations.of(context)!.profile_title,
+          style: AppTextStyles.heading3.copyWith(fontWeight: FontWeight.normal),
+        ),
         backgroundColor: AppColors.white,
       ),
       backgroundColor: AppColors.white,
@@ -44,7 +48,7 @@ class ProfilePage extends ConsumerWidget {
         ProfileStatus.error => Center(
           child: Container(
             margin: const EdgeInsets.only(bottom: kToolbarHeight),
-            child: const Text('Ha ocurrido un error'),
+            child: Text(AppLocalizations.of(context)!.common_error_message),
           ),
         ),
       },
@@ -115,14 +119,17 @@ class _PreferencesHeader extends StatelessWidget {
             ),
             color: AppColors.lightGrey,
           ),
-          child: const Row(
+          child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Row(
                 children: [
-                  Icon(Icons.settings, color: AppColors.darkGrey),
+                  const Icon(Icons.settings, color: AppColors.darkGrey),
                   AppHorizontalSpacing.s8,
-                  Text('Preferencias', style: AppTextStyles.heading3),
+                  Text(
+                    AppLocalizations.of(context)!.profile_preferences_section,
+                    style: AppTextStyles.heading3,
+                  ),
                 ],
               ),
             ],
@@ -233,7 +240,7 @@ class _PrefencesContent extends StatelessWidget {
                         ),
                       ),
                       child: Text(
-                        'Actualizar',
+                        AppLocalizations.of(context)!.profile_button_update,
                         style: AppTextStyles.heading4.copyWith(
                           color: AppColors.white,
                         ),
@@ -263,7 +270,7 @@ class _CloseSessionButton extends ConsumerWidget {
           backgroundColor: WidgetStatePropertyAll(AppColors.error),
         ),
         child: Text(
-          'Cerrar sesión',
+          AppLocalizations.of(context)!.profile_button_logout,
           style: AppTextStyles.heading4.copyWith(color: AppColors.white),
         ),
       ),

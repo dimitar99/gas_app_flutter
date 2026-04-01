@@ -4,6 +4,7 @@ import 'package:gas_app/core/theme/app_colors.dart';
 import 'package:gas_app/core/theme/app_spacing.dart';
 import 'package:gas_app/core/theme/app_text_styles.dart';
 import 'package:gas_app/features/auth/presentation/widgets/gas_app_label.dart';
+import 'package:gas_app/l10n/app_localizations.dart';
 
 class FuelTypeSelector extends ConsumerWidget {
   final String initialValue;
@@ -20,9 +21,9 @@ class FuelTypeSelector extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return Column(
       children: [
-        const GasAppLabel(
+        GasAppLabel(
           fieldType: FieldType.fuel,
-          text: 'Tipo de combustible preferido',
+          text: AppLocalizations.of(context)!.preferred_fuel_type_label,
         ),
         AppVerticalSpacing.s8,
         IgnorePointer(
@@ -45,21 +46,43 @@ class FuelTypeSelector extends ConsumerWidget {
               Icons.arrow_drop_down,
               color: AppColors.textSecondary,
             ),
-            hint: const Text(
-              'Seleccione un combustible',
+            hint: Text(
+              AppLocalizations.of(context)!.select_fuel_hint,
               style: AppTextStyles.small,
             ),
             style: AppTextStyles.heading4.copyWith(
               color: enabled ? AppColors.textPrimary : AppColors.textSecondary,
             ),
             dropdownColor: AppColors.white,
-            items: const [
-              DropdownMenuItem(value: 'gasoline95', child: Text('Gasolina 95')),
-              DropdownMenuItem(value: 'gasoline98', child: Text('Gasolina 98')),
-              DropdownMenuItem(value: 'dieselA', child: Text('Diesel')),
-              DropdownMenuItem(value: 'dieselB', child: Text('Diesel Premium')),
-              DropdownMenuItem(value: 'glp', child: Text('GLP')),
-              DropdownMenuItem(value: 'gnc', child: Text('GNC')),
+            items: [
+              DropdownMenuItem(
+                value: 'gasoline95',
+                child: Text(
+                  AppLocalizations.of(context)!.gas_station_gasoline_95,
+                ),
+              ),
+              DropdownMenuItem(
+                value: 'gasoline98',
+                child: Text(
+                  AppLocalizations.of(context)!.gas_station_gasoline_98,
+                ),
+              ),
+              DropdownMenuItem(
+                value: 'dieselA',
+                child: Text(AppLocalizations.of(context)!.gas_station_diesel_a),
+              ),
+              DropdownMenuItem(
+                value: 'dieselB',
+                child: Text(AppLocalizations.of(context)!.gas_station_diesel_b),
+              ),
+              DropdownMenuItem(
+                value: 'glp',
+                child: Text(AppLocalizations.of(context)!.gas_station_glp),
+              ),
+              DropdownMenuItem(
+                value: 'gnc',
+                child: Text(AppLocalizations.of(context)!.gas_station_gnc),
+              ),
             ],
             initialValue: initialValue,
             onChanged: onChanged,

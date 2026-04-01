@@ -9,6 +9,7 @@ import 'package:gas_app/features/gas_stations/presentation/widgets/gas_station_d
 import 'package:gas_app/features/gas_stations/presentation/widgets/gas_station_detail_how_to_arrive.dart';
 import 'package:gas_app/features/gas_stations/presentation/widgets/gas_station_detail_prices_list.dart';
 import 'package:gas_app/features/gas_stations/presentation/widgets/gas_station_detail_schedule.dart';
+import 'package:gas_app/l10n/app_localizations.dart';
 
 class GasStationsDetailPage extends ConsumerWidget {
   final String gasStationId;
@@ -19,7 +20,10 @@ class GasStationsDetailPage extends ConsumerWidget {
     final state = ref.watch(gasStationDetailNotifierProvider(gasStationId));
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Detalle'), centerTitle: true),
+      appBar: AppBar(
+        title: Text(AppLocalizations.of(context)!.gas_station_detail_title),
+        centerTitle: true,
+      ),
       body: switch (state.status) {
         GasStationsDetailStatetatus.initial ||
         GasStationsDetailStatetatus.loading => const Loading(),

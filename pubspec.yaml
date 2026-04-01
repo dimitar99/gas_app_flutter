@@ -12,12 +12,15 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_dotenv: ^6.0.0
+  flutter_localizations:
+    sdk: flutter
   flutter_riverpod: ^2.6.1
   flutter_secure_storage: ^10.0.0
   flutter_svg: ^2.2.3
   freezed_annotation: ^2.4.4
   geolocator: ^14.0.2
   go_router: ^17.0.1
+  intl: any
   json_annotation: ^4.9.0
   map_launcher: ^4.4.2
   riverpod_annotation: ^2.3.5
@@ -33,5 +36,6 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+  generate: true
   assets:
     - .env

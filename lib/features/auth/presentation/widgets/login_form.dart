@@ -5,6 +5,7 @@ import 'package:gas_app/core/ui/validators/form_validators.dart';
 import 'package:gas_app/core/ui/widgets/app_text_form_field.dart';
 import 'package:gas_app/features/auth/presentation/widgets/gas_app_label.dart';
 import 'package:gas_app/features/auth/presentation/widgets/login_register_button.dart';
+import 'package:gas_app/l10n/app_localizations.dart';
 
 class LoginForm extends ConsumerStatefulWidget {
   const LoginForm({super.key});
@@ -35,31 +36,33 @@ class _LoginFormState extends ConsumerState<LoginForm> {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const GasAppLabel(
+              GasAppLabel(
                 fieldType: FieldType.email,
-                text: 'Correo electrónico',
+                text: AppLocalizations.of(context)!.email_label,
               ),
               AppVerticalSpacing.s8,
               AppTextFormField(
                 controller: _emailController,
-                hintText: 'test@email.com',
-                validator: FormValidators.email,
+                hintText: AppLocalizations.of(context)!.email_hint,
+                validator: (value) => FormValidators.email(context, value),
               ),
               AppVerticalSpacing.s24,
 
-              const GasAppLabel(
+              GasAppLabel(
                 fieldType: FieldType.password,
-                text: 'Contraseña',
+                text: AppLocalizations.of(context)!.password_label,
               ),
               AppVerticalSpacing.s8,
 
               AppTextFormField(
                 controller: _passwordController,
-                hintText: '********',
+                hintText: AppLocalizations.of(context)!.password_hint,
                 obscureText: true,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return 'Por favor, ingrese su contraseña';
+                    return AppLocalizations.of(
+                      context,
+                    )!.validator_password_empty_login;
                   }
                   return null;
                 },

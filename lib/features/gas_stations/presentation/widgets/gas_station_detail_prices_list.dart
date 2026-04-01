@@ -6,6 +6,7 @@ import 'package:gas_app/core/theme/app_text_styles.dart';
 import 'package:gas_app/features/auth/presentation/widgets/gas_app_label.dart';
 import 'package:gas_app/features/gas_stations/domain/entities/prices.dart';
 import 'package:gas_app/features/gas_stations/presentation/widgets/gas_price.dart';
+import 'package:gas_app/l10n/app_localizations.dart';
 
 class GasStationDetailPricesList extends ConsumerWidget {
   final Prices prices;
@@ -37,9 +38,9 @@ class GasStationDetailPricesList extends ConsumerWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const GasAppLabel(
+          GasAppLabel(
             fieldType: FieldType.prices,
-            text: "Precios",
+            text: AppLocalizations.of(context)!.gas_station_prices_title,
             iconColor: AppColors.textPrimary,
             textStyle: AppTextStyles.heading3,
           ),

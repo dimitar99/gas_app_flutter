@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gas_app/core/theme/app_spacing.dart';
+import 'package:gas_app/core/theme/app_text_styles.dart';
 import 'package:gas_app/features/gas_stations/domain/entities/gas_station.dart';
 import 'package:gas_app/features/gas_stations/presentation/notifiers/gas_stations_notifier.dart';
 import 'package:gas_app/features/gas_stations/presentation/providers/gas_stations_providers.dart';
 import 'package:gas_app/features/gas_stations/presentation/state/gas_stations_state.dart';
 import 'package:gas_app/features/gas_stations/presentation/widgets/gas_station_item.dart';
+import 'package:gas_app/l10n/app_localizations.dart';
 import 'package:go_router/go_router.dart';
 
 class GasStationsPage extends ConsumerWidget {
@@ -19,7 +21,12 @@ class GasStationsPage extends ConsumerWidget {
       onTap: () => FocusScope.of(context).unfocus(),
       child: Scaffold(
         appBar: AppBar(
-          title: const Text('Gasolineras'),
+          title: Text(
+            AppLocalizations.of(context)!.gas_stations_page_title,
+            style: AppTextStyles.heading3.copyWith(
+              fontWeight: FontWeight.normal,
+            ),
+          ),
           actions: [
             IconButton(
               icon: const Icon(Icons.person),
@@ -159,12 +166,15 @@ class Error extends ConsumerWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(state.errorMessage ?? 'Ha ocurrido un error'),
+            Text(
+              state.errorMessage ??
+                  AppLocalizations.of(context)!.common_error_message,
+            ),
             AppVerticalSpacing.s16,
             ElevatedButton(
               onPressed: () =>
                   ref.read(gasStationsNotifierProvider.notifier).loadNearby(),
-              child: const Text('Reintentar'),
+              child: Text(AppLocalizations.of(context)!.common_retry),
             ),
           ],
         ),

@@ -8,6 +8,7 @@ import 'package:gas_app/features/auth/presentation/state/auth_state.dart';
 import 'package:gas_app/features/auth/presentation/widgets/fuel_logo.dart';
 import 'package:gas_app/features/auth/presentation/widgets/login_form.dart';
 import 'package:gas_app/features/auth/presentation/widgets/register_form.dart';
+import 'package:gas_app/l10n/app_localizations.dart';
 
 class AuthPage extends ConsumerWidget {
   const AuthPage({super.key});
@@ -20,8 +21,8 @@ class AuthPage extends ConsumerWidget {
           SnackBar(
             content: Text(
               next.errorType == AuthErrorType.invalidCredentials
-                  ? 'Credenciales inválidas'
-                  : 'Ha ocurrido un error',
+                  ? AppLocalizations.of(context)!.auth_login_invalid_credentials
+                  : AppLocalizations.of(context)!.common_error_message,
               style: AppTextStyles.heading4.copyWith(color: AppColors.white),
             ),
             backgroundColor: AppColors.error,
@@ -62,12 +63,17 @@ class AuthPage extends ConsumerWidget {
                   AppVerticalSpacing.s24,
                   const FuelLogo(),
                   AppVerticalSpacing.s20,
-                  const Text('Gas App', style: AppTextStyles.heading1),
+                  Text(
+                    AppLocalizations.of(context)!.common_app_title,
+                    style: AppTextStyles.heading1,
+                  ),
                   AppVerticalSpacing.s12,
                   Text(
                     screen == AuthScreen.login
-                        ? 'Bienvenido de nuevo'
-                        : 'Crear una cuenta nueva',
+                        ? AppLocalizations.of(context)!.auth_welcome_back
+                        : AppLocalizations.of(
+                            context,
+                          )!.auth_create_account_title,
                     style: AppTextStyles.heading4,
                   ),
                   screen == AuthScreen.login
@@ -78,8 +84,10 @@ class AuthPage extends ConsumerWidget {
                         ref.read(authNotifierProvider.notifier).changeScreen(),
                     child: Text(
                       screen == AuthScreen.login
-                          ? '¿No tienes cuenta? Regístrate'
-                          : '¿Ya tienes cuenta? Inicia sesión',
+                          ? AppLocalizations.of(context)!.auth_no_account_link
+                          : AppLocalizations.of(
+                              context,
+                            )!.auth_already_have_account_link,
                       style: AppTextStyles.smallBold,
                     ),
                   ),

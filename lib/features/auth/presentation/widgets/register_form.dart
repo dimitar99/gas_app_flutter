@@ -9,6 +9,7 @@ import 'package:gas_app/core/ui/widgets/gas_app_selector.dart';
 import 'package:gas_app/features/auth/presentation/notifiers/auth_notifier.dart';
 import 'package:gas_app/features/auth/presentation/widgets/gas_app_label.dart';
 import 'package:gas_app/features/auth/presentation/widgets/login_register_button.dart';
+import 'package:gas_app/l10n/app_localizations.dart';
 
 class RegisterForm extends ConsumerStatefulWidget {
   const RegisterForm({super.key});
@@ -88,15 +89,15 @@ class _Email extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        const GasAppLabel(
+        GasAppLabel(
           fieldType: FieldType.email,
-          text: 'Correo electrónico',
+          text: AppLocalizations.of(context)!.email_label,
         ),
         AppVerticalSpacing.s8,
         AppTextFormField(
           controller: emailController,
-          hintText: 'test@email.com',
-          validator: FormValidators.email,
+          hintText: AppLocalizations.of(context)!.email_hint,
+          validator: (value) => FormValidators.email(context, value),
           keyboardType: TextInputType.emailAddress,
         ),
       ],
@@ -112,18 +113,21 @@ class _Password extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        const GasAppLabel(fieldType: FieldType.password, text: 'Contraseña'),
+        GasAppLabel(
+          fieldType: FieldType.password,
+          text: AppLocalizations.of(context)!.password_label,
+        ),
         AppVerticalSpacing.s8,
         AppTextFormField(
           controller: passwordController,
-          hintText: '********',
+          hintText: AppLocalizations.of(context)!.password_hint,
           obscureText: true,
           validator: (value) {
             if (value == null || value.isEmpty) {
-              return 'Por favor, ingrese su contraseña';
+              return AppLocalizations.of(context)!.validator_password_empty;
             }
             if (value.length < 6) {
-              return 'La contraseña debe tener al menos 6 caracteres';
+              return AppLocalizations.of(context)!.validator_password_length;
             }
             return null;
           },
@@ -139,15 +143,18 @@ class _OptionalText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Row(
+    return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Expanded(child: Divider()),
+        const Expanded(child: Divider()),
         Padding(
-          padding: EdgeInsets.symmetric(horizontal: 8),
-          child: Text('Preferencias (opcional)', style: AppTextStyles.body),
+          padding: const EdgeInsets.symmetric(horizontal: 8),
+          child: Text(
+            AppLocalizations.of(context)!.preferences_optional_label,
+            style: AppTextStyles.body,
+          ),
         ),
-        Expanded(child: Divider()),
+        const Expanded(child: Divider()),
       ],
     );
   }

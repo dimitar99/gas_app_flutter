@@ -5,6 +5,7 @@ import 'package:gas_app/core/theme/app_spacing.dart';
 import 'package:gas_app/core/theme/app_text_styles.dart';
 import 'package:gas_app/core/utils/extensions/string.dart';
 import 'package:gas_app/features/gas_stations/domain/entities/gas_station.dart';
+import 'package:gas_app/l10n/app_localizations.dart';
 import 'package:go_router/go_router.dart';
 
 class GasStationItem extends StatelessWidget {
@@ -93,13 +94,27 @@ class GasStationItem extends StatelessWidget {
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text('Gasolina 95: ${gasStation.prices.gasoline95}'),
-                Text('Gasolina 98: ${gasStation.prices.gasoline98}'),
-                Text('Diesel: ${gasStation.prices.dieselA}'),
-                Text('Diesel Premium: ${gasStation.prices.dieselB}'),
-                Text('AdBlue: ${gasStation.prices.adblue}'),
-                Text('GPL: ${gasStation.prices.glp}'),
-                Text('GNC: ${gasStation.prices.gnc}'),
+                Text(
+                  '${AppLocalizations.of(context)!.gas_station_gasoline_95}: ${gasStation.prices.gasoline95}',
+                ),
+                Text(
+                  '${AppLocalizations.of(context)!.gas_station_gasoline_98}: ${gasStation.prices.gasoline98}',
+                ),
+                Text(
+                  '${AppLocalizations.of(context)!.gas_station_diesel_a}: ${gasStation.prices.dieselA}',
+                ),
+                Text(
+                  '${AppLocalizations.of(context)!.gas_station_diesel_b}: ${gasStation.prices.dieselB}',
+                ),
+                Text(
+                  '${AppLocalizations.of(context)!.gas_station_adblue}: ${gasStation.prices.adblue}',
+                ),
+                Text(
+                  '${AppLocalizations.of(context)!.gas_station_glp}: ${gasStation.prices.glp}',
+                ),
+                Text(
+                  '${AppLocalizations.of(context)!.gas_station_gnc}: ${gasStation.prices.gnc}',
+                ),
               ],
             ),
           ],

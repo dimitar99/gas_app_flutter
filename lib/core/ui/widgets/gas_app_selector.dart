@@ -4,6 +4,7 @@ import 'package:gas_app/core/theme/app_colors.dart';
 import 'package:gas_app/core/theme/app_spacing.dart';
 import 'package:gas_app/core/theme/app_text_styles.dart';
 import 'package:gas_app/features/auth/presentation/widgets/gas_app_label.dart';
+import 'package:gas_app/l10n/app_localizations.dart';
 
 enum SelectorType { tank, radio }
 
@@ -30,8 +31,8 @@ class GasAppSelector extends ConsumerWidget {
               ? FieldType.tank
               : FieldType.radio,
           text: type == SelectorType.tank
-              ? 'Capacidad del depósito (litros)'
-              : 'Radio de búsqueda (km)',
+              ? AppLocalizations.of(context)!.tank_capacity_label
+              : AppLocalizations.of(context)!.search_radius_label,
         ),
         AppVerticalSpacing.s16,
         IgnorePointer(
@@ -50,7 +51,7 @@ class GasAppSelector extends ConsumerWidget {
         Padding(
           padding: const EdgeInsets.only(top: 8, left: 12),
           child: Text(
-            '${value.toStringAsFixed(0)} ${type == SelectorType.tank ? 'litros' : 'km'}',
+            '${value.toStringAsFixed(0)} ${type == SelectorType.tank ? AppLocalizations.of(context)!.unit_liters : AppLocalizations.of(context)!.unit_km}',
             style: AppTextStyles.heading4.copyWith(
               color: enabled ? AppColors.textPrimary : AppColors.textSecondary,
             ),

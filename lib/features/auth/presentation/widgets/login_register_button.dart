@@ -4,6 +4,7 @@ import 'package:gas_app/core/theme/app_colors.dart';
 import 'package:gas_app/core/theme/app_text_styles.dart';
 import 'package:gas_app/features/auth/presentation/notifiers/auth_notifier.dart';
 import 'package:gas_app/features/auth/presentation/state/auth_state.dart';
+import 'package:gas_app/l10n/app_localizations.dart';
 
 class LoginRegisterButton extends ConsumerWidget {
   final GlobalKey<FormState> formKey;
@@ -70,7 +71,7 @@ class LoginRegisterButton extends ConsumerWidget {
                   ),
                   const SizedBox(width: 8),
                   Text(
-                    'Procesando...',
+                    AppLocalizations.of(context)!.auth_button_processing,
                     style: AppTextStyles.smallBold.copyWith(
                       color: AppColors.white,
                     ),
@@ -78,7 +79,9 @@ class LoginRegisterButton extends ConsumerWidget {
                 ],
               )
             : Text(
-                screen == AuthScreen.login ? 'Iniciar sesión' : 'Registrarse',
+                screen == AuthScreen.login
+                    ? AppLocalizations.of(context)!.auth_button_login
+                    : AppLocalizations.of(context)!.auth_button_register,
                 style: AppTextStyles.smallBold.copyWith(color: AppColors.white),
               ),
       ),

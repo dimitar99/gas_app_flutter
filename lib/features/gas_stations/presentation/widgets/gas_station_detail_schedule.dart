@@ -3,6 +3,7 @@ import 'package:gas_app/core/theme/app_colors.dart';
 import 'package:gas_app/core/theme/app_spacing.dart';
 import 'package:gas_app/core/theme/app_text_styles.dart';
 import 'package:gas_app/features/auth/presentation/widgets/gas_app_label.dart';
+import 'package:gas_app/l10n/app_localizations.dart';
 
 class GasStationDetailSchedule extends StatelessWidget {
   final String? schedule;
@@ -21,9 +22,9 @@ class GasStationDetailSchedule extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const GasAppLabel(
+          GasAppLabel(
             fieldType: FieldType.schedule,
-            text: "Horario",
+            text: AppLocalizations.of(context)!.gas_station_schedule_title,
             iconColor: AppColors.textPrimary,
             textStyle: AppTextStyles.heading3,
           ),

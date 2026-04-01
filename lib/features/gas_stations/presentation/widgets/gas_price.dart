@@ -1,18 +1,36 @@
 import 'package:flutter/material.dart';
 import 'package:gas_app/core/theme/app_colors.dart';
 import 'package:gas_app/core/theme/app_text_styles.dart';
+import 'package:gas_app/l10n/app_localizations.dart';
 
 enum GasType {
-  gasoline95("Gasolina 95"),
-  gasoline98("Gasolina 98"),
-  dieselA("Diesel A"),
-  dieselB("Diesel B"),
-  adblue("Adblue"),
-  glp("GLP"),
-  gnc("GNC");
+  gasoline95,
+  gasoline98,
+  dieselA,
+  dieselB,
+  adblue,
+  glp,
+  gnc;
 
-  final String name;
-  const GasType(this.name);
+  String getTranslatedName(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    switch (this) {
+      case GasType.gasoline95:
+        return l10n.gas_station_gasoline_95;
+      case GasType.gasoline98:
+        return l10n.gas_station_gasoline_98;
+      case GasType.dieselA:
+        return l10n.gas_station_diesel_a;
+      case GasType.dieselB:
+        return l10n.gas_station_diesel_b;
+      case GasType.adblue:
+        return l10n.gas_station_adblue;
+      case GasType.glp:
+        return l10n.gas_station_glp;
+      case GasType.gnc:
+        return l10n.gas_station_gnc;
+    }
+  }
 }
 
 class GasDetailPrice extends StatelessWidget {
@@ -59,7 +77,7 @@ class GasDetailPrice extends StatelessWidget {
         borderRadius: BorderRadius.circular(8),
       ),
       child: Text(
-        '${type.name}: $price€',
+        '${type.getTranslatedName(context)}: $price€',
         style: AppTextStyles.heading4.copyWith(fontWeight: FontWeight.bold),
       ),
     );
