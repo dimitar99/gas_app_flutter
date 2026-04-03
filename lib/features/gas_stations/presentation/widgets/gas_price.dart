@@ -33,17 +33,12 @@ enum GasType {
   }
 }
 
-class GasDetailPrice extends StatelessWidget {
+class GasPrice extends StatelessWidget {
   final GasType type;
   final double price;
   final bool userPrice;
 
-  const GasDetailPrice(
-    this.type,
-    this.price, {
-    super.key,
-    this.userPrice = false,
-  });
+  const GasPrice(this.type, this.price, {super.key, this.userPrice = false});
 
   Color colorByType() {
     switch (type) {
@@ -71,7 +66,7 @@ class GasDetailPrice extends StatelessWidget {
       decoration: BoxDecoration(
         color: colorByType().withValues(alpha: 0.3),
         border: Border.all(
-          color: userPrice ? AppColors.primary : Colors.transparent,
+          color: userPrice ? colorByType() : Colors.transparent,
           width: userPrice ? 3 : 1,
         ),
         borderRadius: BorderRadius.circular(8),

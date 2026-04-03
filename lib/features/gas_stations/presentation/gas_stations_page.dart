@@ -146,7 +146,7 @@ class GasStationsList extends StatelessWidget {
         itemCount: filtered.length,
         itemBuilder: (_, index) {
           final gasStation = filtered[index];
-          return GasStationItem(gasStation: gasStation);
+          return GasStationItem(gasStation: gasStation, firstItem: index == 0);
         },
       ),
     );

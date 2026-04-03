@@ -3,14 +3,19 @@ import 'package:flutter/material.dart';
 import 'package:gas_app/core/theme/app_colors.dart';
 import 'package:gas_app/core/theme/app_spacing.dart';
 import 'package:gas_app/core/theme/app_text_styles.dart';
-import 'package:gas_app/core/utils/extensions/string.dart';
 import 'package:gas_app/features/gas_stations/domain/entities/gas_station.dart';
+import 'package:gas_app/features/gas_stations/presentation/widgets/gas_price.dart';
 import 'package:gas_app/l10n/app_localizations.dart';
 import 'package:go_router/go_router.dart';
 
 class GasStationItem extends StatelessWidget {
   final GasStation gasStation;
-  const GasStationItem({super.key, required this.gasStation});
+  final bool firstItem;
+  const GasStationItem({
+    super.key,
+    required this.gasStation,
+    this.firstItem = false,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -35,10 +40,7 @@ class GasStationItem extends StatelessWidget {
           children: [
             Row(
               children: [
-                Text(
-                  gasStation.name.capitalizeFirst,
-                  style: AppTextStyles.heading3,
-                ),
+                Text(gasStation.name, style: AppTextStyles.heading3),
                 const Spacer(),
                 Container(
                   padding: const EdgeInsets.symmetric(
@@ -88,35 +90,33 @@ class GasStationItem extends StatelessWidget {
               ],
             ),
             AppVerticalSpacing.s12,
-            Divider(color: AppColors.textSecondary.withValues(alpha: 0.2)),
-            AppVerticalSpacing.s12,
 
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  '${AppLocalizations.of(context)!.gas_station_gasoline_95}: ${gasStation.prices.gasoline95}',
+            if (gasStation.prices.gasoline95 != null) ...[
+              GasPrice(
+                GasType.gasoline95,
+                gasStation.prices.gasoline95!,
+                userPrice: true,
+              ),
+              AppVerticalSpacing.s12,
+              if (firstItem)
+                Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 4,
+                    vertical: 2,
+                  ),
+                  decoration: BoxDecoration(
+                    color: AppColors.success.withValues(alpha: 0.2),
+                    border: Border.all(color: AppColors.success, width: 2),
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: Text(
+                    AppLocalizations.of(context)!.gas_station_best_price,
+                    style: AppTextStyles.smallBold.copyWith(
+                      color: AppColors.success,
+                    ),
+                  ),
                 ),
-                Text(
-                  '${AppLocalizations.of(context)!.gas_station_gasoline_98}: ${gasStation.prices.gasoline98}',
-                ),
-                Text(
-                  '${AppLocalizations.of(context)!.gas_station_diesel_a}: ${gasStation.prices.dieselA}',
-                ),
-                Text(
-                  '${AppLocalizations.of(context)!.gas_station_diesel_b}: ${gasStation.prices.dieselB}',
-                ),
-                Text(
-                  '${AppLocalizations.of(context)!.gas_station_adblue}: ${gasStation.prices.adblue}',
-                ),
-                Text(
-                  '${AppLocalizations.of(context)!.gas_station_glp}: ${gasStation.prices.glp}',
-                ),
-                Text(
-                  '${AppLocalizations.of(context)!.gas_station_gnc}: ${gasStation.prices.gnc}',
-                ),
-              ],
-            ),
+            ],
           ],
         ),
       ),

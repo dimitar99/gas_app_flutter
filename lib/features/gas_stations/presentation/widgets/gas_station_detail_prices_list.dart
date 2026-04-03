@@ -46,7 +46,7 @@ class GasStationDetailPricesList extends ConsumerWidget {
           ),
           AppVerticalSpacing.s12,
           for (int i = 0; i < availablePrices.length; i++) ...[
-            GasDetailPrice(
+            GasPrice(
               availablePrices[i].$1,
               availablePrices[i].$2!,
               userPrice:

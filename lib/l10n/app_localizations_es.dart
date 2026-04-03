@@ -132,6 +132,9 @@ class AppLocalizationsEs extends AppLocalizations {
   String get gas_station_address_title => 'Dirección';
 
   @override
+  String get gas_station_best_price => 'Mejor precio';
+
+  @override
   String get profile_title => 'Perfil';
 
   @override

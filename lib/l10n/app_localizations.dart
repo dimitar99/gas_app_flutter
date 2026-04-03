@@ -341,6 +341,12 @@ abstract class AppLocalizations {
   /// **'Address'**
   String get gas_station_address_title;
 
+  /// No description provided for @gas_station_best_price.
+  ///
+  /// In en, this message translates to:
+  /// **'Best price'**
+  String get gas_station_best_price;
+
   /// No description provided for @profile_title.
   ///
   /// In en, this message translates to:
