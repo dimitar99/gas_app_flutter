@@ -3,8 +3,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gas_app/core/theme/app_colors.dart';
 import 'package:gas_app/core/theme/app_spacing.dart';
 import 'package:gas_app/core/theme/app_text_styles.dart';
+import 'package:gas_app/core/ui/widgets/error_view.dart';
 import 'package:gas_app/core/ui/widgets/fuel_type_selector.dart';
 import 'package:gas_app/core/ui/widgets/gas_app_selector.dart';
+import 'package:gas_app/core/ui/widgets/loading_view.dart';
 import 'package:gas_app/features/auth/presentation/notifiers/auth_notifier.dart';
 import 'package:gas_app/features/profile/presentation/notifiers/profile_notifier.dart';
 import 'package:gas_app/features/profile/presentation/state/profile_state.dart';
@@ -43,13 +45,10 @@ class ProfilePage extends ConsumerWidget {
       ),
       backgroundColor: AppColors.white,
       body: switch (state.status) {
-        ProfileStatus.initial || ProfileStatus.loading => Container(),
+        ProfileStatus.initial || ProfileStatus.loading => const LoadingView(),
         ProfileStatus.editing || ProfileStatus.success => _Preferences(state),
-        ProfileStatus.error => Center(
-          child: Container(
-            margin: const EdgeInsets.only(bottom: kToolbarHeight),
-            child: Text(AppLocalizations.of(context)!.common_error_message),
-          ),
+        ProfileStatus.error => ErrorView(
+          retry: () => ref.read(profileNotifierProvider.notifier).loadData(),
         ),
       },
     );

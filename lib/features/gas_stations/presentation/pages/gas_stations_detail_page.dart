@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gas_app/core/theme/app_spacing.dart';
 import 'package:gas_app/core/theme/app_text_styles.dart';
+import 'package:gas_app/core/ui/widgets/error_view.dart';
+import 'package:gas_app/core/ui/widgets/loading_view.dart';
 import 'package:gas_app/features/gas_stations/domain/entities/gas_station.dart';
 import 'package:gas_app/features/gas_stations/presentation/notifiers/gas_stations_detail_notifier.dart';
 import 'package:gas_app/features/gas_stations/presentation/state/gas_stations_detail_state.dart';
@@ -26,12 +28,16 @@ class GasStationsDetailPage extends ConsumerWidget {
       ),
       body: switch (state.status) {
         GasStationsDetailStatetatus.initial ||
-        GasStationsDetailStatetatus.loading => const Loading(),
+        GasStationsDetailStatetatus.loading => const LoadingView(),
         GasStationsDetailStatetatus.success => GasStationDetail(
           gasStation: state.gasStation!,
           userFuel: state.userFuel,
         ),
-        GasStationsDetailStatetatus.error => const Error(),
+        GasStationsDetailStatetatus.error => ErrorView(
+          retry: () => ref
+              .read(gasStationDetailNotifierProvider(gasStationId).notifier)
+              .loadData(),
+        ),
       },
     );
   }
@@ -90,20 +96,6 @@ class GasStationDetail extends StatelessWidget {
 
           GasStationDetailHowToArrive(gasStation: gasStation),
         ],
-      ),
-    );
-  }
-}
-
-class Error extends StatelessWidget {
-  const Error({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return const Center(
-      child: Padding(
-        padding: EdgeInsets.only(bottom: kToolbarHeight),
-        child: Text('Ha ocurrido un error'),
       ),
     );
   }

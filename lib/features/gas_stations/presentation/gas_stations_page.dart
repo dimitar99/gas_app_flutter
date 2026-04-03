@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:gas_app/core/theme/app_spacing.dart';
 import 'package:gas_app/core/theme/app_text_styles.dart';
+import 'package:gas_app/core/ui/widgets/error_view.dart';
+import 'package:gas_app/core/ui/widgets/loading_view.dart';
 import 'package:gas_app/features/auth/presentation/providers/auth_providers.dart';
 import 'package:gas_app/features/gas_stations/domain/entities/gas_station.dart';
 import 'package:gas_app/features/gas_stations/presentation/notifiers/gas_stations_notifier.dart';
@@ -37,25 +38,14 @@ class GasStationsPage extends ConsumerWidget {
           ],
         ),
         body: switch (state.status) {
-          GasStationsStatus.initial => const Loading(),
-          GasStationsStatus.loading => const Loading(),
+          GasStationsStatus.initial => const LoadingView(),
+          GasStationsStatus.loading => const LoadingView(),
           GasStationsStatus.success => Body(state: state),
-          GasStationsStatus.error => Error(state: state),
+          GasStationsStatus.error => ErrorView(
+            retry: () =>
+                ref.read(gasStationsNotifierProvider.notifier).loadNearby(),
+          ),
         },
-      ),
-    );
-  }
-}
-
-class Loading extends StatelessWidget {
-  const Loading({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return const Center(
-      child: Padding(
-        padding: EdgeInsets.only(bottom: kToolbarHeight),
-        child: CircularProgressIndicator(),
       ),
     );
   }
@@ -156,33 +146,6 @@ class GasStationsList extends ConsumerWidget {
             ),
           );
         },
-      ),
-    );
-  }
-}
-
-class Error extends ConsumerWidget {
-  const Error({super.key, required this.state});
-
-  final GasStationsState state;
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    return Center(
-      child: Padding(
-        padding: const EdgeInsets.only(bottom: kToolbarHeight),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(AppLocalizations.of(context)!.common_error_message),
-            AppVerticalSpacing.s16,
-            ElevatedButton(
-              onPressed: () =>
-                  ref.read(gasStationsNotifierProvider.notifier).loadNearby(),
-              child: Text(AppLocalizations.of(context)!.common_retry),
-            ),
-          ],
-        ),
       ),
     );
   }
