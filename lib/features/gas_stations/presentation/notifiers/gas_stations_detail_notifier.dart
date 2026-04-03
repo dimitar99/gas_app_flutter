@@ -13,7 +13,7 @@ class GasStationDetailNotifier extends _$GasStationDetailNotifier {
     return GasStationsDetailState.initial();
   }
 
-  Future<void> loadData() async {
+  void loadData() {
     state = GasStationsDetailState.loading();
 
     final gasStation = ref
@@ -23,7 +23,7 @@ class GasStationDetailNotifier extends _$GasStationDetailNotifier {
     if (gasStation == null) {
       state = GasStationsDetailState.error();
     } else {
-      final user = await ref.read(userStorageProvider).getUser();
+      final user = ref.read(userStorageProvider).getUser();
 
       state = GasStationsDetailState.success(gasStation, user?.fuel);
     }

@@ -6,13 +6,11 @@ class GasStationsState {
   final GasStationsStatus status;
   final List<GasStation> gasStations;
   final List<GasStation> filteredGasStations;
-  final String? errorMessage;
 
   const GasStationsState({
     this.status = GasStationsStatus.initial,
     this.gasStations = const [],
     this.filteredGasStations = const [],
-    this.errorMessage,
   });
 
   factory GasStationsState.initial() => const GasStationsState();
@@ -29,6 +27,6 @@ class GasStationsState {
     filteredGasStations: gasStations,
   );
 
-  factory GasStationsState.error(String message) =>
-      GasStationsState(status: GasStationsStatus.error, errorMessage: message);
+  factory GasStationsState.error() =>
+      const GasStationsState(status: GasStationsStatus.error);
 }

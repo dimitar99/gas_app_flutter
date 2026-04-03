@@ -19,6 +19,18 @@ class PricesDTO {
     required this.gnc,
   });
 
+  factory PricesDTO.fromJson(Map<String, dynamic> json) {
+    return PricesDTO(
+      gasoline95: double.tryParse(json['gasoline95'].toString()) ?? 0,
+      gasoline98: double.tryParse(json['gasoline98'].toString()) ?? 0,
+      dieselA: double.tryParse(json['dieselA'].toString()) ?? 0,
+      dieselB: double.tryParse(json['dieselB'].toString()) ?? 0,
+      adblue: double.tryParse(json['adblue'].toString()) ?? 0,
+      glp: double.tryParse(json['glp'].toString()) ?? 0,
+      gnc: double.tryParse(json['gnc'].toString()) ?? 0,
+    );
+  }
+
   Prices toEntity() {
     return Prices(
       gasoline95: gasoline95,

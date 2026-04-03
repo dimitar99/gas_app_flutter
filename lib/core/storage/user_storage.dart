@@ -5,7 +5,7 @@ import 'package:gas_app/features/auth/domain/entities/user.dart';
 
 abstract class UserStorage {
   Future<void> saveUser(User user);
-  Future<User?> getUser();
+  User? getUser();
   Future<void> clear();
 }
 
@@ -22,7 +22,7 @@ class LocalUserStorage implements UserStorage {
   }
 
   @override
-  Future<User?> getUser() async {
+  User? getUser() {
     final raw = prefs.getString(_key);
     if (raw == null) return null;
     return User.fromJson(jsonDecode(raw));

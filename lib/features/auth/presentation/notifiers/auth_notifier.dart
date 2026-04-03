@@ -27,7 +27,7 @@ class AuthNotifier extends _$AuthNotifier {
       }
     }
 
-    final user = await ref.read(userStorageProvider).getUser();
+    final user = ref.read(userStorageProvider).getUser();
 
     state = user != null
         ? AuthState.authenticated(user)

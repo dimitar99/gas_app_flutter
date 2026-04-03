@@ -17,7 +17,7 @@ class ProfileNotifier extends _$ProfileNotifier {
   Future<void> loadData({bool reloadGasStations = false}) async {
     state = ProfileState.loading();
 
-    final user = await ref.read(userStorageProvider).getUser();
+    final user = ref.read(userStorageProvider).getUser();
 
     if (user == null) {
       state = ProfileState.error();
@@ -30,9 +30,7 @@ class ProfileNotifier extends _$ProfileNotifier {
       );
 
       if (reloadGasStations) {
-        ref
-            .read(gasStationsNotifierProvider.notifier)
-            .loadNearby(radius: user.searchRadius.toDouble());
+        ref.read(gasStationsNotifierProvider.notifier).loadNearby();
       }
     }
   }

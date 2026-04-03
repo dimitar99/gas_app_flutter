@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gas_app/core/theme/app_spacing.dart';
 import 'package:gas_app/core/theme/app_text_styles.dart';
+import 'package:gas_app/features/auth/presentation/providers/auth_providers.dart';
 import 'package:gas_app/features/gas_stations/domain/entities/gas_station.dart';
 import 'package:gas_app/features/gas_stations/presentation/notifiers/gas_stations_notifier.dart';
 import 'package:gas_app/features/gas_stations/presentation/providers/gas_stations_providers.dart';
 import 'package:gas_app/features/gas_stations/presentation/state/gas_stations_state.dart';
+import 'package:gas_app/features/gas_stations/presentation/widgets/gas_price.dart';
 import 'package:gas_app/features/gas_stations/presentation/widgets/gas_station_item.dart';
 import 'package:gas_app/l10n/app_localizations.dart';
 import 'package:go_router/go_router.dart';
@@ -134,19 +136,25 @@ class SearchField extends StatelessWidget {
   }
 }
 
-class GasStationsList extends StatelessWidget {
+class GasStationsList extends ConsumerWidget {
   const GasStationsList({super.key, required this.filtered});
 
   final List<GasStation> filtered;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Expanded(
       child: ListView.builder(
         itemCount: filtered.length,
         itemBuilder: (_, index) {
           final gasStation = filtered[index];
-          return GasStationItem(gasStation: gasStation, firstItem: index == 0);
+          return GasStationItem(
+            gasStation: gasStation,
+            firstItem: index == 0,
+            userGasType: GasType.fromString(
+              ref.read(userStorageProvider).getUser()?.fuel,
+            ),
+          );
         },
       ),
     );
@@ -166,10 +174,7 @@ class Error extends ConsumerWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(
-              state.errorMessage ??
-                  AppLocalizations.of(context)!.common_error_message,
-            ),
+            Text(AppLocalizations.of(context)!.common_error_message),
             AppVerticalSpacing.s16,
             ElevatedButton(
               onPressed: () =>

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:dio/dio.dart';
 import 'package:gas_app/core/network/error_mapper.dart';
 import 'package:gas_app/core/network/exceptions/network_exception.dart';
@@ -26,7 +28,8 @@ class GasStationRepositoryImpl implements GasStationRepository {
       return models.map((e) => e.toEntity()).toList();
     } on DioException catch (e) {
       throw DioErrorMapper.map(e);
-    } catch (_) {
+    } catch (e) {
+      log(e.toString());
       throw const UnknownNetworkException();
     }
   }

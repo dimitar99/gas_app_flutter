@@ -6,8 +6,8 @@ class GasStation {
   final String id;
   final String name;
   final String? schedule;
-  final Prices prices;
-  final Location location;
+  final Prices? prices;
+  final Location? location;
   final String? province;
   final String? city;
   final String? address;
@@ -30,8 +30,8 @@ class GasStation {
         Geolocator.distanceBetween(
           lat,
           lng,
-          location.latitude ?? 0.0,
-          location.longitude ?? 0.0,
+          location?.latitude ?? 0.0,
+          location?.longitude ?? 0.0,
         ) /
         1000;
     return double.parse(distance.toStringAsFixed(2));

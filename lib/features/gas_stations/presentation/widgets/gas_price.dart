@@ -31,17 +31,9 @@ enum GasType {
         return l10n.gas_station_gnc;
     }
   }
-}
-
-class GasPrice extends StatelessWidget {
-  final GasType type;
-  final double price;
-  final bool userPrice;
-
-  const GasPrice(this.type, this.price, {super.key, this.userPrice = false});
 
   Color colorByType() {
-    switch (type) {
+    switch (this) {
       case GasType.gasoline95:
         return AppColors.lightGreen;
       case GasType.gasoline98:
@@ -59,14 +51,29 @@ class GasPrice extends StatelessWidget {
     }
   }
 
+  static GasType fromString(String? value) {
+    return GasType.values.firstWhere(
+      (e) => e.name == value,
+      orElse: () => GasType.gasoline95,
+    );
+  }
+}
+
+class GasPrice extends StatelessWidget {
+  final GasType type;
+  final double price;
+  final bool userPrice;
+
+  const GasPrice(this.type, this.price, {super.key, this.userPrice = false});
+
   @override
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 12),
       decoration: BoxDecoration(
-        color: colorByType().withValues(alpha: 0.3),
+        color: type.colorByType().withValues(alpha: 0.3),
         border: Border.all(
-          color: userPrice ? colorByType() : Colors.transparent,
+          color: userPrice ? type.colorByType() : Colors.transparent,
           width: userPrice ? 3 : 1,
         ),
         borderRadius: BorderRadius.circular(8),

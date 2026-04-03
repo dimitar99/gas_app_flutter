@@ -19,7 +19,7 @@ class GasStationsNotifier extends _$GasStationsNotifier {
     return GasStationsState.initial();
   }
 
-  Future<void> loadNearby({double radius = 0}) async {
+  Future<void> loadNearby() async {
     state = GasStationsState.loading();
 
     try {
@@ -29,15 +29,11 @@ class GasStationsNotifier extends _$GasStationsNotifier {
 
       final location = await ref.read(locationProvider.future);
 
-      double searchRadius = radius;
+      double searchRadius = 5;
 
-      if (searchRadius == 0) {
-        final user = await ref.read(userStorageProvider).getUser();
-        if (user != null) {
-          searchRadius = user.searchRadius.toDouble();
-        } else {
-          searchRadius = 5;
-        }
+      final user = ref.read(userStorageProvider).getUser();
+      if (user != null) {
+        searchRadius = user.searchRadius.toDouble();
       }
 
       final List<GasStation> stations = await nearbyGasStations.call(
@@ -53,9 +49,7 @@ class GasStationsNotifier extends _$GasStationsNotifier {
         error: e,
         stackTrace: stackTrace,
       );
-      state = GasStationsState.error(
-        'Error obteniendo las gasolineras cercanas',
-      );
+      state = GasStationsState.error();
     }
   }
 

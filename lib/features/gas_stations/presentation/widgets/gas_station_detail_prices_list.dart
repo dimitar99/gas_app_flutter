@@ -9,7 +9,7 @@ import 'package:gas_app/features/gas_stations/presentation/widgets/gas_price.dar
 import 'package:gas_app/l10n/app_localizations.dart';
 
 class GasStationDetailPricesList extends ConsumerWidget {
-  final Prices prices;
+  final Prices? prices;
   final String? userFuel;
   const GasStationDetailPricesList({
     super.key,
@@ -19,15 +19,17 @@ class GasStationDetailPricesList extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final availablePrices = [
-      (GasType.gasoline95, prices.gasoline95),
-      (GasType.gasoline98, prices.gasoline98),
-      (GasType.dieselA, prices.dieselA),
-      (GasType.dieselB, prices.dieselB),
-      (GasType.adblue, prices.adblue),
-      (GasType.glp, prices.glp),
-      (GasType.gnc, prices.gnc),
-    ].where((item) => item.$2 != null && item.$2! > 0).toList();
+    final availablePrices = prices == null
+        ? []
+        : [
+            (GasType.gasoline95, prices?.gasoline95),
+            (GasType.gasoline98, prices?.gasoline98),
+            (GasType.dieselA, prices?.dieselA),
+            (GasType.dieselB, prices?.dieselB),
+            (GasType.adblue, prices?.adblue),
+            (GasType.glp, prices?.glp),
+            (GasType.gnc, prices?.gnc),
+          ].where((item) => item.$2 != null && item.$2! > 0).toList();
 
     return Container(
       decoration: const BoxDecoration(

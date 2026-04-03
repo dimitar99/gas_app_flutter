@@ -35,11 +35,12 @@ class GasStationDetailHowToArrive extends StatelessWidget {
                     ),
                     title: Text(map.mapName),
                     onTap: () {
-                      if (gasStation.location.hasCoordinates) {
+                      if (gasStation.location != null &&
+                          gasStation.location!.hasCoordinates) {
                         map.showDirections(
                           destination: Coords(
-                            gasStation.location.latitude ?? 0.0,
-                            gasStation.location.longitude ?? 0.0,
+                            gasStation.location!.latitude ?? 0.0,
+                            gasStation.location!.longitude ?? 0.0,
                           ),
                           destinationTitle: gasStation.name,
                         );

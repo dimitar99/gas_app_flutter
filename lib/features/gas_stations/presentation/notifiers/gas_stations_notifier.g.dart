@@ -7,7 +7,7 @@ part of 'gas_stations_notifier.dart';
 // **************************************************************************
 
 String _$gasStationsNotifierHash() =>
-    r'f6bc4bd872c5aebbcbff0ddec67814b6dcbc685f';
+    r'6372dcd9f4988d1b6f00ca8ddf8ec91af5951276';
 
 /// See also [GasStationsNotifier].
 @ProviderFor(GasStationsNotifier)

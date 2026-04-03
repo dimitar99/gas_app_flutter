@@ -11,10 +11,12 @@ import 'package:go_router/go_router.dart';
 class GasStationItem extends StatelessWidget {
   final GasStation gasStation;
   final bool firstItem;
+  final GasType userGasType;
   const GasStationItem({
     super.key,
     required this.gasStation,
     this.firstItem = false,
+    required this.userGasType,
   });
 
   @override
@@ -73,6 +75,7 @@ class GasStationItem extends StatelessWidget {
                 ),
               ],
             ),
+            AppVerticalSpacing.s4,
             if (gasStation.address != null)
               Row(
                 children: [
@@ -91,10 +94,11 @@ class GasStationItem extends StatelessWidget {
             ),
             AppVerticalSpacing.s12,
 
-            if (gasStation.prices.gasoline95 != null) ...[
+            if (gasStation.prices != null &&
+                gasStation.prices!.getPrice(userGasType) != null) ...[
               GasPrice(
-                GasType.gasoline95,
-                gasStation.prices.gasoline95!,
+                userGasType,
+                gasStation.prices!.getPrice(userGasType)!,
                 userPrice: true,
               ),
               AppVerticalSpacing.s12,
